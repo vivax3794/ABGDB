@@ -1,4 +1,7 @@
 venv/
 .mypy_cache/
-__py_cache__/
+__pycache__/
 *_SECRET.*
+.coverage
+htmlcov
+Database.db
