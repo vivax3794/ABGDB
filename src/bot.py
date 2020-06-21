@@ -5,6 +5,8 @@ from discord.ext import commands
 from loguru import logger
 
 from config_SECRET import COGS
+
+
 class Bot(commands.Bot):
     def __init__(self, db: Database):
         super().__init__(command_prefix="-")
