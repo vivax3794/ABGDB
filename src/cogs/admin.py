@@ -1,7 +1,7 @@
 from discord.ext import commands
 
 from src.bot import Bot
-from config_SECRET import ADMINS
+from config import ADMINS
 
 
 class AdminCog(commands.Cog):

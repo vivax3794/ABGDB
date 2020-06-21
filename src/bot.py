@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 from loguru import logger
 
-from config_SECRET import COGS
+from config import COGS
 
 
 class Bot(commands.Bot):
