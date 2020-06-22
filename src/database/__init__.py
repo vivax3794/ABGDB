@@ -1,4 +1,4 @@
-from src.database.core import Database
+from .core import Database
 from config import DATABASE as DEFAULT_DATABASE_FILE
 
 

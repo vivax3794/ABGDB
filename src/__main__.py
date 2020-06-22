@@ -1,5 +1,5 @@
-from src.database import get_database
-from src.bot import Bot
+from .database import get_database
+from .bot import Bot
 from config_SECRET import TOKEN
 
 if __name__ == "__main__":

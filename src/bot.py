@@ -1,4 +1,4 @@
-from src.database import Database
+from .database import Database
 
 import discord
 from discord.ext import commands

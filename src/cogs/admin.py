@@ -1,6 +1,6 @@
 from discord.ext import commands
 
-from src.bot import Bot
+from ..bot import Bot
 from config import ADMINS
 
 
