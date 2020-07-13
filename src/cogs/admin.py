@@ -12,8 +12,8 @@ class AdminCog(commands.Cog):
     async def cog_check(self, ctx: commands.Context) -> bool:
         return ctx.author.id in ADMINS
 
-    @commands.command()
-    async def eval(self, ctx: commands.Context, *, code: str) -> None:
+    @commands.command(name="eval")
+    async def eval_command(self, ctx: commands.Context, *, code: str) -> None:
         code = self._format_code(code)
         globals_ = {
                 "ctx": ctx,
