@@ -18,10 +18,13 @@ def test_admin_check_works_correctly(admins_list, user_id, result):
         ctx = Mock()
         author = Mock()
 
-        ctx.author = author
         author.id = user_id
+        ctx.author = author
 
-        assert asyncio.run(AdminCog.cog_check(None, ctx)) is result
+        self_mock = Mock()
+        self_mock.bot.is_owner.return_value = False
+
+        assert asyncio.run(AdminCog.cog_check(self_mock, ctx)) is result
 
 
 class TestEval:
