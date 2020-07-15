@@ -4,7 +4,8 @@ DATABASE = "Database.db"
 # the cogs to load, best to just have all of there
 COGS = [
         "settings",
-        "admin"
+        "admin",
+        "help"
         ]
 
 # this is not admins on your server, but admins of the bot

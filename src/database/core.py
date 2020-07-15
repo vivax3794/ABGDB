@@ -17,12 +17,14 @@ class Database:
         logger.info("creating missing tabels")
         c = self.conn.cursor()
 
-        c.execute('''
+        c.execute(
+            """
             CREATE TABLE IF NOT EXISTS settings (
                 server_id INTEGER PRIMARY KEY,
                 prefix text
             )
-        ''')
+        """
+        )
 
         self.conn.commit()
 
@@ -30,9 +32,12 @@ class Database:
         logger.debug(f"adding settings for server {server_id}")
 
         c = self.conn.cursor()
-        c.execute('''
+        c.execute(
+            """
             INSERT INTO settings (server_id, prefix) VALUES (?, ?)
-        ''', (server_id, "!"))
+        """,
+            (server_id, "!"),
+        )
 
         self.conn.commit()
 
@@ -40,11 +45,14 @@ class Database:
         logger.debug(f"updating prefix for server {server_id} to '{prefix}'")
 
         c = self.conn.cursor()
-        c.execute('''
+        c.execute(
+            """
             UPDATE settings
             SET prefix = ?
             WHERE server_id = ?
-        ''', (prefix, server_id))
+        """,
+            (prefix, server_id),
+        )
 
         self.conn.commit()
 
@@ -52,10 +60,13 @@ class Database:
         logger.debug(f"getting prefix for server {server_id}")
 
         c = self.conn.cursor()
-        c.execute('''
+        c.execute(
+            """
             SELECT prefix
             FROM settings
             WHERE server_id = ?
-        ''', (server_id, ))
+        """,
+            (server_id,),
+        )
 
         return c.fetchone()[0]  # type: ignore

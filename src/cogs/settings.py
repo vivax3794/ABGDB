@@ -11,7 +11,9 @@ class SettingCog(commands.Cog):
     async def prefix(self, ctx: commands.Context) -> None:
         "return the current prefix"
         prefix = self.bot.db.prefix_get(ctx.guild.id)
-        await ctx.send(f"my prefix is: `{prefix}`, but you can always just {self.bot.user.mention} if you are unsure :smile:")
+        await ctx.send(
+            f"my prefix is: `{prefix}`, but you can always just {self.bot.user.mention} if you are unsure :smile:"
+        )
 
     @commands.command()
     @commands.has_permissions(manage_guild=True)

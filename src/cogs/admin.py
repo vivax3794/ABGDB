@@ -16,10 +16,10 @@ class AdminCog(commands.Cog):
     async def eval_command(self, ctx: commands.Context, *, code: str) -> None:
         code = self._format_code(code)
         globals_ = {
-                "ctx": ctx,
-                "bot": self.bot,
-                "db": self.bot.db,
-                }
+            "ctx": ctx,
+            "bot": self.bot,
+            "db": self.bot.db,
+        }
         exec(code, globals_)
         await globals_["func"]()
 

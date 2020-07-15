@@ -34,11 +34,15 @@ class Bot(commands.Bot):
         if message.author.id == self.user.id:
             pass  # logger.debug("not replying to my self")
         elif message.guild is None:
-            await message.channel.send("sorry but I can not respond to commands in dms since I dont know what prefix to use.")
+            await message.channel.send(
+                "sorry but I can not respond to commands in dms since I dont know what prefix to use."
+            )
         else:
             await self.process_commands(message)
 
-    async def on_command_error(self, ctx: commands.Context, error: commands.CommandError) -> None:
+    async def on_command_error(
+        self, ctx: commands.Context, error: commands.CommandError
+    ) -> None:
         tb = "".join(traceback.format_exception(None, error, error.__traceback__))
         if ctx.command is not None:
             logger.error(f"command {ctx.command.name} raised an error.")
@@ -49,26 +53,34 @@ class Bot(commands.Bot):
             await ctx.send(f"{ctx.author.mention} command not found")
             await ctx.send_help()
 
-        elif isinstance(error, commands.BadArgument) or isinstance(error, commands.MissingRequiredArgument):
+        elif isinstance(error, commands.BadArgument) or isinstance(
+            error, commands.MissingRequiredArgument
+        ):
             logger.error("incorrect arguments given")
             await ctx.send(f"{ctx.author.mention} invalid arguments")
             await ctx.send_help(ctx.command)
 
         elif isinstance(error, commands.MissingPermissions):
             logger.error("missing permissions")
-            missing_permissions = "\n".join(f"* {permission}" for permission in error.missing_perms)
-            await ctx.send(f"{ctx.author.mention} you need these permissions to use this command: ```\n{missing_permissions}```")
+            missing_permissions = "\n".join(
+                f"* {permission}" for permission in error.missing_perms
+            )
+            await ctx.send(
+                f"{ctx.author.mention} you need these permissions to use this command: ```\n{missing_permissions}```"
+            )
 
         elif isinstance(error, commands.CheckFailure):
             logger.info(error)
-            await ctx.send(f"{ctx.author.mention} you are not allowed to use this command.")
+            await ctx.send(
+                f"{ctx.author.mention} you are not allowed to use this command."
+            )
 
         else:
             # if we dont know the error, either it is something we need to cover above or the command causing it is broken.
             logger.error(f"unknow error\n{tb}")
             error_embed = discord.Embed(
-                    color=discord.Color.red(),
-                    title=str(error),
-                    description=f"```\n{tb}```"
-                    )
-            await ctx.send(f"{ctx.author.mention} unknow error detected.", embed=error_embed)
+                color=discord.Color.red(), title=str(error), description=f"```\n{tb}```"
+            )
+            await ctx.send(
+                f"{ctx.author.mention} unknow error detected.", embed=error_embed
+            )
