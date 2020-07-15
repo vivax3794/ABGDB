@@ -7,6 +7,8 @@ unless you are me.
 
 
 # run bot locally 
+this bot uses python3.8
+
 first clone the repo and cd into it:
 ```bash
 git clone https://github.com/vivax3794/ABGDB
