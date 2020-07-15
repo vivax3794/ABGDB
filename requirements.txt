@@ -2,3 +2,4 @@ discord
 loguru
 pytest
 pytest-cov
+pytest-asyncio

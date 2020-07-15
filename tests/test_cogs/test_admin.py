@@ -1,11 +1,11 @@
-from unittest.mock import Mock, patch
-import asyncio
+from unittest.mock import Mock, patch, AsyncMock
 
 import pytest
 
 from src.cogs.admin import AdminCog
 
 
+@pytest.mark.asyncio
 @pytest.mark.parametrize(("admins_list", "user_id", "result"),
                          [
                             ([123], 123, True),
@@ -13,18 +13,15 @@ from src.cogs.admin import AdminCog
                             ([123, 456], 456, True),
                             ([123, 456], 789, False)
                          ])
-def test_admin_check_works_correctly(admins_list, user_id, result):
+async def test_admin_check_works_correctly(admins_list, user_id, result):
     with patch("src.cogs.admin.ADMINS", admins_list):
-        ctx = Mock()
-        ctx.author.id = user_id
-
-        async def is_owner(*args):
-            return False
+        ctx_mock = Mock()
+        ctx_mock.author.id = user_id
 
         self_mock = Mock()
-        self_mock.bot.is_owner = is_owner
+        self_mock.bot.is_owner = AsyncMock(return_value=False)
 
-        assert asyncio.run(AdminCog.cog_check(self_mock, ctx)) is result
+        assert (await AdminCog.cog_check(self_mock, ctx_mock)) is result
 
 
 class TestEval:
