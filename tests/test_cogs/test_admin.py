@@ -16,10 +16,7 @@ from src.cogs.admin import AdminCog
 def test_admin_check_works_correctly(admins_list, user_id, result):
     with patch("src.cogs.admin.ADMINS", admins_list):
         ctx = Mock()
-        author = Mock()
-
-        author.id = user_id
-        ctx.author = author
+        ctx.author.id = user_id
 
         self_mock = Mock()
         self_mock.bot.is_owner.return_value = False
