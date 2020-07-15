@@ -22,10 +22,13 @@ class HelpCommand(commands.HelpCommand, Spy):
                 category = cog.qualified_name.replace("Cog", "")
 
             allowed_commands = await self.filter_commands(command_list)
+            if len(allowed_commands) == 0:
+                continue
+
             embed.add_field(
                 name=category,
                 value="\n".join(
-                    f"`{command.name}` - {command.brief}"
+                    f"`{command.name}` - {command.short_doc}"
                     for command in allowed_commands
                 ),
             )
