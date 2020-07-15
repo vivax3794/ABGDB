@@ -6,7 +6,7 @@ import pytest
 from src.cogs.admin import AdminCog
 
 
-@pytest.mark.parametrize("admins_list, user_id, result",
+@pytest.mark.parametrize(("admins_list", "user_id", "result"),
                          [
                             ([123], 123, True),
                             ([123], 321, False),
