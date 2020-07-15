@@ -59,6 +59,10 @@ class Bot(commands.Bot):
             missing_permissions = "\n".join(f"* {permission}" for permission in error.missing_perms)
             await ctx.send(f"{ctx.author.mention} you need these permissions to use this command: ```\n{missing_permissions}```")
 
+        elif isinstance(error, commands.CheckFailure):
+            logger.info(error)
+            await ctx.send(f"{ctx.author.mention} you are not allowed to use this command.")
+
         else:
             # if we dont know the error, either it is something we need to cover above or the command causing it is broken.
             logger.error(f"unknow error\n{tb}")
