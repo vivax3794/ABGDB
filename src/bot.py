@@ -20,6 +20,7 @@ class Bot(commands.Bot):
             logger.info(f"loaded cog: {cog}")
 
     async def get_prefix(self, message: discord.Message) -> str:
+        logger.debug(f"getting prefix for message: {message.id}")
         server_id = message.guild.id
         prefix = self.db.prefix_get(server_id)
 

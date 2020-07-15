@@ -27,7 +27,7 @@ class Database:
         self.conn.commit()
 
     def prefix_add(self, server_id: int, prefix: str) -> None:
-        logger.info(f"adding prefix '{prefix}' for server {server_id}")
+        logger.debug(f"adding prefix '{prefix}' for server {server_id}")
 
         c = self.conn.cursor()
         c.execute('''
@@ -37,7 +37,7 @@ class Database:
         self.conn.commit()
 
     def prefix_update(self, server_id: int, prefix: str) -> None:
-        logger.info(f"updating prefix for server {server_id} to '{prefix}'")
+        logger.debug(f"updating prefix for server {server_id} to '{prefix}'")
 
         c = self.conn.cursor()
         c.execute('''
@@ -49,7 +49,7 @@ class Database:
         self.conn.commit()
 
     def prefix_get(self, server_id: int) -> str:
-        logger.info(f"getting prefix for server {server_id}")
+        logger.debug(f"getting prefix for server {server_id}")
 
         c = self.conn.cursor()
         c.execute('''
