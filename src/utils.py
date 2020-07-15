@@ -12,5 +12,7 @@ class Spy:
             # ignore dunder methods
             return object.__getattribute__(self, value)
 
-        logger.debug(f"[SPY] {self.__class__.__name__}.{value}")
-        return object.__getattribute__(self, value)
+        logger.log("spy", f"{self.__class__.__name__}.{value}")
+        attr = object.__getattribute__(self, value)
+
+        return attr

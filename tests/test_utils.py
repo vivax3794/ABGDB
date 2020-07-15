@@ -10,4 +10,4 @@ def test_spy() -> None:
 
     with patch("src.utils.logger") as LoggerMock:
         assert Foo().a == 1
-        LoggerMock.debug.called_once_with("[SPY] Foo.a")
+        LoggerMock.log.assert_called_once_with("spy", "Foo.a")
