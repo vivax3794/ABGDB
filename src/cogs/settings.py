@@ -14,7 +14,7 @@ class SettingCog(commands.Cog):
         await ctx.send(f"my prefix is: `{prefix}`, but you can always just {self.bot.user.mention} if you are unsure :smile:")
 
     @commands.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_guild=True)
     async def prefix_change(self, ctx: commands.Context, new_prefix: str) -> None:
         """
         change the current prefix.
