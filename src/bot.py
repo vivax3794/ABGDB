@@ -32,7 +32,7 @@ class Bot(commands.Bot):
 
     async def on_message(self, message: discord.Message) -> None:
         if message.author.id == self.user.id:
-            logger.debug("not replying to my self")
+            pass  # logger.debug("not replying to my self")
         elif message.guild is None:
             await message.channel.send("sorry but I can not respond to commands in dms since I dont know what prefix to use.")
         else:
