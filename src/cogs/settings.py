@@ -15,7 +15,7 @@ class SettingCog(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(manage_guild=True)
-    async def prefix_change(self, ctx: commands.Context, new_prefix: str) -> None:
+    async def change_prefix(self, ctx: commands.Context, new_prefix: str) -> None:
         """
         change the current prefix.
         """
