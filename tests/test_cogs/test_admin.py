@@ -18,8 +18,11 @@ def test_admin_check_works_correctly(admins_list, user_id, result):
         ctx = Mock()
         ctx.author.id = user_id
 
+        async def is_owner(*args):
+            return False
+
         self_mock = Mock()
-        self_mock.bot.is_owner.return_value = False
+        self_mock.bot.is_owner = is_owner
 
         assert asyncio.run(AdminCog.cog_check(self_mock, ctx)) is result
 

@@ -10,7 +10,7 @@ class AdminCog(commands.Cog):
         self.bot = bot
 
     async def cog_check(self, ctx: commands.Context) -> bool:
-        return ctx.author.id in ADMINS or self.bot.is_owner(ctx.author)
+        return ctx.author.id in ADMINS or await self.bot.is_owner(ctx.author)
 
     @commands.command(name="eval")
     async def eval_command(self, ctx: commands.Context, *, code: str) -> None:
