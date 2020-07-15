@@ -18,21 +18,21 @@ class Database:
         c = self.conn.cursor()
 
         c.execute('''
-            CREATE TABLE IF NOT EXISTS prefix (
-                id INTEGER PRIMARY KEY,
-                value text
+            CREATE TABLE IF NOT EXISTS settings (
+                server_id INTEGER PRIMARY KEY,
+                prefix text
             )
         ''')
 
         self.conn.commit()
 
-    def prefix_add(self, server_id: int, prefix: str) -> None:
-        logger.debug(f"adding prefix '{prefix}' for server {server_id}")
+    def add_server(self, server_id: int) -> None:
+        logger.debug(f"adding settings for server {server_id}")
 
         c = self.conn.cursor()
         c.execute('''
-            INSERT INTO prefix (id, value) VALUES (?, ?)
-        ''', (server_id, prefix))
+            INSERT INTO settings (server_id, prefix) VALUES (?, ?)
+        ''', (server_id, "!"))
 
         self.conn.commit()
 
@@ -41,9 +41,9 @@ class Database:
 
         c = self.conn.cursor()
         c.execute('''
-            UPDATE prefix
-            SET value = ?
-            WHERE id = ?
+            UPDATE settings
+            SET prefix = ?
+            WHERE server_id = ?
         ''', (prefix, server_id))
 
         self.conn.commit()
@@ -53,9 +53,9 @@ class Database:
 
         c = self.conn.cursor()
         c.execute('''
-            SELECT value
-            FROM prefix
-            WHERE id = ?
+            SELECT prefix
+            FROM settings
+            WHERE server_id = ?
         ''', (server_id, ))
 
         return c.fetchone()[0]  # type: ignore

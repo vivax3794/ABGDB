@@ -28,7 +28,7 @@ class Bot(commands.Bot):
         return commands.when_mentioned_or(prefix)(self, message)
 
     async def on_guild_join(self, guild: discord.Guild) -> None:
-        self.db.prefix_add(guild.id, "!")
+        self.db.add_server(guild.id)
 
     async def on_message(self, message: discord.Message) -> None:
         if message.author.id == self.user.id:
