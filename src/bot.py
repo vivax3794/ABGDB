@@ -60,6 +60,7 @@ class Bot(commands.Bot):
             await ctx.send(f"{ctx.author.mention} you need these permissions to use this command: ```\n{missing_permissions}```")
 
         else:
+            # if we dont know the error, either it is something we need to cover above or the command causing it is broken.
             logger.error(f"unknow error\n{tb}")
             error_embed = discord.Embed(
                     color=discord.Color.red(),
