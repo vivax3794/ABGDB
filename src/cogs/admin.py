@@ -26,8 +26,9 @@ class AdminCog(commands.Cog):
 
         output = StringIO()
         with redirect_stdout(output):
-            exec(code, globals_)
-            await globals_["func"]()
+            async with ctx.typing():
+                exec(code, globals_)
+                await globals_["func"]()
 
         await ctx.send(f"```\n{output.getvalue()}```")
 
