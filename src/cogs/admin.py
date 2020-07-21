@@ -7,7 +7,7 @@ from ..bot import Bot
 from config import ADMINS
 
 
-class AdminCog(commands.Cog):
+class AdminCog(commands.Cog, name="admin"):  # type: ignore
     def __init__(self, bot: Bot) -> None:
         super().__init__()
         self.bot = bot

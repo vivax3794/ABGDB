@@ -26,7 +26,7 @@ class HelpCommand(commands.HelpCommand, Spy):
             if cog is None:
                 category = "Not Grouped"
             else:
-                category = cog.qualified_name.replace("Cog", "")
+                category = cog.qualified_name
 
             allowed_commands = await self.filter_commands(command_list)
             if len(allowed_commands) == 0:
@@ -55,7 +55,7 @@ class HelpCommand(commands.HelpCommand, Spy):
     async def send_cog_help(self, cog: commands.Cog) -> None:
         allowed_commands = await self.filter_commands(cog.get_commands())
         embed = discord.Embed(
-                title=cog.qualified_name.replace("Cog", ""),
+                title=cog.qualified_name,
                 description="\n".join(
                     f"`{command.name}` - {command.short_doc}"
                     for command in allowed_commands

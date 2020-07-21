@@ -2,7 +2,7 @@ from discord.ext import commands
 from ..bot import Bot
 
 
-class SettingCog(commands.Cog):
+class SettingsCog(commands.Cog, name="settings"):  # type: ignore
     def __init__(self, bot: Bot) -> None:
         super().__init__()
         self.bot = bot
@@ -26,4 +26,4 @@ class SettingCog(commands.Cog):
 
 
 def setup(bot: Bot) -> None:
-    bot.add_cog(SettingCog(bot))
+    bot.add_cog(SettingsCog(bot))
