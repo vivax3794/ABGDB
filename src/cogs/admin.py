@@ -1,3 +1,6 @@
+from contextlib import redirect_stdout
+from io import StringIO
+
 from discord.ext import commands
 
 from ..bot import Bot
@@ -20,8 +23,13 @@ class AdminCog(commands.Cog):
             "bot": self.bot,
             "db": self.bot.db,
         }
-        exec(code, globals_)
-        await globals_["func"]()
+
+        output = StringIO()
+        with redirect_stdout(output):
+            exec(code, globals_)
+            await globals_["func"]()
+
+        await ctx.send(f"```\n{output.getvalue()}```")
 
     def _format_code(self, code: str) -> str:
         lines = code.splitlines()[1:-1]
