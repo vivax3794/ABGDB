@@ -38,3 +38,6 @@ simply run pytest:
 ```bash
 python -m pytest tests/
 ```
+
+# TODO list
+you can find my [trello board here](https://trello.com/b/m67oWJxC/abgdb)
