@@ -17,6 +17,16 @@ class AdminCog(commands.Cog):
 
     @commands.command(name="eval")
     async def eval_command(self, ctx: commands.Context, *, code: str) -> None:
+        """
+        Run the given python code.
+
+        it must be in this format!!!
+        !eval ```py
+        print("hello world")
+        ```
+
+        that last newline is very important
+        """
         code = self._format_code(code)
         globals_ = {
             "ctx": ctx,
