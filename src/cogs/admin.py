@@ -21,9 +21,9 @@ class AdminCog(commands.Cog):
         Run the given python code.
 
         it must be in this format!!!
-        !eval ```py
-        print("hello world")
-        ```
+        > !eval \\`\\`\\`py
+        > print("hello world")
+        > \\`\\`\\`
 
         that last newline is very important
         """
