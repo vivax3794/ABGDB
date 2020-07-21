@@ -31,6 +31,7 @@ class HelpCommand(commands.HelpCommand, Spy):
                     f"`{command.name}` - {command.short_doc}"
                     for command in allowed_commands
                 ),
+                inline=False
             )
 
         channel: discord.abc.Messageable = self.get_destination()
