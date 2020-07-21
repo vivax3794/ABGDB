@@ -47,12 +47,12 @@ class Database:
 
         c = self.conn.cursor()
         c.execute(
-            """
+            f"""
             UPDATE settings
-            SET ? = ?
+            SET {setting} = ?
             WHERE server_id = ?
         """,
-            (setting, new_value, server_id),
+            (new_value, server_id),
         )
 
         self.conn.commit()
@@ -61,12 +61,12 @@ class Database:
         logger.debug(f"getting {setting} for server {server_id}")
         c = self.conn.cursor()
         c.execute(
-            """
-            SELECT ?
+                f"""
+            SELECT {setting}
             FROM settings
             WHERE server_id = ?
         """,
-            (setting, server_id),
+            (server_id,),
         )
 
         return c.fetchone()[0]  # type: ignore

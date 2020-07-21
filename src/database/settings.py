@@ -1,8 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar, Generic, Any, Dict
 
-from .core import Database
-
 
 class Setting(ABC):
     """
@@ -14,7 +12,7 @@ class Setting(ABC):
         server_id - id: the server id of the server this setting is activated from.
     """
     @abstractmethod
-    def _validate_input(self, db: Database, bot, server_id: int, value: str) -> bool:
+    def _validate_input(self, bot, server_id: int, value: str) -> bool:
         """
         Check if the input is valid
 
@@ -24,14 +22,14 @@ class Setting(ABC):
         return NotImplemented
 
     @abstractmethod
-    def get_value(self, db: Database, bot, server_id: int) -> Any:
+    def get_value(self, bot, server_id: int) -> Any:
         """
         Return the current value for this setting
         """
         return NotImplemented
 
     @abstractmethod
-    def _set_value_core(self, db: Database, bot, server_id: int, new_value: str) -> None:
+    def _set_value_core(self, bot, server_id: int, new_value: str) -> None:
         """
         Set a new value for the setting
 
@@ -40,9 +38,9 @@ class Setting(ABC):
         """
         return NotImplemented
 
-    def set_value(self, db: Database, bot, server_id: int, new_value: str) -> None:
-        if self._validate_input(db, bot, server_id, new_value):
-            self._set_value_core(db, bot, server_id, new_value)
+    def set_value(self, bot, server_id: int, new_value: str) -> None:
+        if self._validate_input(bot, server_id, new_value):
+            self._set_value_core(bot, server_id, new_value)
 
         else:
             raise ValueError(f"{new_value!r} failed validator for {self.__class__.__name__}")
@@ -59,7 +57,7 @@ class ConverterSetting(Setting, Generic[T]):
     def _converter(self, value: str) -> T:
         return NotImplemented
 
-    def _validate_input(self, db: Database, bot, server_id: int, value: str) -> bool:
+    def _validate_input(self, bot, server_id: int, value: str) -> bool:
         try:
             self._converter(value)
         except ValueError:
@@ -68,12 +66,12 @@ class ConverterSetting(Setting, Generic[T]):
             return True
 
     @abstractmethod
-    def _set_value_core(self, db: Database, bot, server_id: int, new_value: T) -> None:  # type: ignore[override]
+    def _set_value_core(self, bot, server_id: int, new_value: T) -> None:  # type: ignore[override]
         return NotImplemented
 
-    def set_value(self, db: Database, bot, server_id: int, new_value: str) -> None:
-        if self._validate_input(db, bot, server_id, new_value):
-            self._set_value_core(db, bot, server_id, self._converter(new_value))
+    def set_value(self, bot, server_id: int, new_value: str) -> None:
+        if self._validate_input(bot, server_id, new_value):
+            self._set_value_core(bot, server_id, self._converter(new_value))
 
         else:
             raise ValueError(f"{new_value!r} failed validator for {self.__class__.__name__}")
@@ -94,14 +92,14 @@ class BoolConvertorSetting(ConverterSetting):
 
 
 class PrefixSetting(Setting):
-    def _validate_input(self, db: Database, bot, server_id: int, value: str) -> bool:
+    def _validate_input(self, bot, server_id: int, value: str) -> bool:
         return not value.isspace()
 
-    def get_value(self, db: Database, bot, server_id: int) -> bool:
-        return db.get_settting("prefix", server_id)
+    def get_value(self, bot, server_id: int) -> bool:
+        return bot.db.get_settting("prefix", server_id)
 
-    def _set_value_core(self, db: Database, bot, server_id: int, value: str) -> None:
-        return db.update_setting(server_id, "prefix", value)
+    def _set_value_core(self, bot, server_id: int, value: str) -> None:
+        return bot.db.update_setting(server_id, "prefix", value)
 
 
 SETTINGS: Dict[str, Setting] = {

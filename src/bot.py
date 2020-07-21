@@ -26,7 +26,7 @@ class Bot(commands.Bot):
         logger.debug(f"getting prefix for message: {message.id}")
         server_id = message.guild.id
 
-        prefix = self.settings["prefix"].get_value(self.db, self, server_id)
+        prefix = self.settings["prefix"].get_value(self, server_id)
 
         return commands.when_mentioned_or(prefix)(self, message)
 
