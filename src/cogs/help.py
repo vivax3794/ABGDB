@@ -59,7 +59,8 @@ class HelpCommand(commands.HelpCommand, Spy):
                 description="\n".join(
                     f"`{command.name}` - {command.short_doc}"
                     for command in allowed_commands
-                    )
+                    ),
+                color=discord.Color.blue()
                 )
         await self._send_embed(embed)
 
