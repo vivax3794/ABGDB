@@ -52,6 +52,17 @@ class HelpCommand(commands.HelpCommand, Spy):
 
         await self._send_embed(embed)
 
+    async def send_cog_help(self, cog: commands.Cog) -> None:
+        allowed_commands = await self.filter_commands(cog.get_commands())
+        embed = discord.Embed(
+                title=cog.qualified_name.replace("Cog", ""),
+                description="\n".join(
+                    f"`{command.name}` - {command.short_doc}"
+                    for command in allowed_commands
+                    )
+                )
+        await self._send_embed(embed)
+
 
 def setup(bot: Bot) -> None:
     bot.remove_command("help")
