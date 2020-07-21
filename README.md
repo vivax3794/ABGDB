@@ -5,8 +5,7 @@ this is a bad bot, don't use it.
 unless you are me.
 
 
-
-# run bot locally 
+## run bot locally 
 this bot uses python3.8
 
 first clone the repo and cd into it:
@@ -31,7 +30,7 @@ now you can run the bot (make sure to run with python3):
 ```bash
 python -m src
 ```
-## running tests
+### running tests
 want to make sure the bot is working?
 
 simply run pytest:
@@ -39,5 +38,5 @@ simply run pytest:
 python -m pytest tests/
 ```
 
-# TODO list
+## TODO list
 you can find my [trello board here](https://trello.com/b/m67oWJxC/abgdb)
