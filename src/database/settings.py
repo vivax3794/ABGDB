@@ -1,0 +1,109 @@
+from abc import ABC, abstractmethod
+from typing import TypeVar, Generic, Any, Dict
+
+from .core import Database
+
+
+class Setting(ABC):
+    """
+    Represents a setting and has functions to interact with it.
+    these are the args for all the functions you should overwrite (validate_input, get_value, set_value)
+    args:
+        db - Database: the database
+        bot - Bot: the bot in case it needs to fetch something from the discord api
+        server_id - id: the server id of the server this setting is activated from.
+    """
+    @abstractmethod
+    def _validate_input(self, db: Database, bot, server_id: int, value: str) -> bool:
+        """
+        Check if the input is valid
+
+        args:
+            value - str: the value that should be checked
+        """
+        return NotImplemented
+
+    @abstractmethod
+    def get_value(self, db: Database, bot, server_id: int) -> Any:
+        """
+        Return the current value for this setting
+        """
+        return NotImplemented
+
+    @abstractmethod
+    def _set_value_core(self, db: Database, bot, server_id: int, new_value: str) -> None:
+        """
+        Set a new value for the setting
+
+        args:
+            new_value - str: the new value to set the setting, validating the input is done before being passed to this function
+        """
+        return NotImplemented
+
+    def set_value(self, db: Database, bot, server_id: int, new_value: str) -> None:
+        if self._validate_input(db, bot, server_id, new_value):
+            self._set_value_core(db, bot, server_id, new_value)
+
+        else:
+            raise ValueError(f"{new_value!r} failed validator for {self.__class__.__name__}")
+
+
+T = TypeVar("T")
+
+
+class ConverterSetting(Setting, Generic[T]):
+    """
+    Convert input
+    """
+    @abstractmethod
+    def _converter(self, value: str) -> T:
+        return NotImplemented
+
+    def _validate_input(self, db: Database, bot, server_id: int, value: str) -> bool:
+        try:
+            self._converter(value)
+        except ValueError:
+            return False
+        else:
+            return True
+
+    @abstractmethod
+    def _set_value_core(self, db: Database, bot, server_id: int, new_value: T) -> None:  # type: ignore[override]
+        return NotImplemented
+
+    def set_value(self, db: Database, bot, server_id: int, new_value: str) -> None:
+        if self._validate_input(db, bot, server_id, new_value):
+            self._set_value_core(db, bot, server_id, self._converter(new_value))
+
+        else:
+            raise ValueError(f"{new_value!r} failed validator for {self.__class__.__name__}")
+
+
+class BoolConvertorSetting(ConverterSetting):
+    def converter(self, value: str) -> bool:
+        """
+        Convert a value to a bool.
+        """
+        value = value.lower().strip()
+        if value in {"y", "yes", "true"}:
+            return True
+        elif value in {"n", "no", "false"}:
+            return False
+        else:
+            raise ValueError(f"{value} is not a valid resonse")
+
+
+class PrefixSetting(Setting):
+    def _validate_input(self, db: Database, bot, server_id: int, value: str) -> bool:
+        return not value.isspace()
+
+    def get_value(self, db: Database, bot, server_id: int) -> bool:
+        return db.get_settting("prefix", server_id)
+
+    def _set_value_core(self, db: Database, bot, server_id: int, value: str) -> None:
+        return db.update_setting(server_id, "prefix", value)
+
+
+SETTINGS: Dict[str, Setting] = {
+        "prefix": PrefixSetting()
+        }

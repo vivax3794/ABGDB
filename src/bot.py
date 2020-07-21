@@ -5,6 +5,7 @@ from discord.ext import commands
 from loguru import logger
 
 from .database import Database
+from .database.settings import SETTINGS
 from config import COGS
 
 
@@ -14,6 +15,7 @@ class Bot(commands.Bot):
 
         self.db = db
         self.load_cogs()
+        self.settings = SETTINGS
 
     def load_cogs(self) -> None:
         for cog in COGS:
@@ -23,7 +25,8 @@ class Bot(commands.Bot):
     async def get_prefix(self, message: discord.Message) -> str:
         logger.debug(f"getting prefix for message: {message.id}")
         server_id = message.guild.id
-        prefix = self.db.prefix_get(server_id)
+
+        prefix = self.settings["prefix"].get_value(self.db, self, server_id)
 
         return commands.when_mentioned_or(prefix)(self, message)
 

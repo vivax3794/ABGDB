@@ -1,4 +1,5 @@
 import sqlite3
+from typing import Any
 
 from loguru import logger
 
@@ -41,32 +42,31 @@ class Database:
 
         self.conn.commit()
 
-    def prefix_update(self, server_id: int, prefix: str) -> None:
-        logger.debug(f"updating prefix for server {server_id} to '{prefix}'")
+    def update_setting(self, server_id: int, setting: str, new_value: Any) -> None:
+        logger.debug(f"updating {setting} for server {server_id} to '{new_value}'")
 
         c = self.conn.cursor()
         c.execute(
             """
             UPDATE settings
-            SET prefix = ?
+            SET ? = ?
             WHERE server_id = ?
         """,
-            (prefix, server_id),
+            (setting, new_value, server_id),
         )
 
         self.conn.commit()
 
-    def prefix_get(self, server_id: int) -> str:
-        logger.debug(f"getting prefix for server {server_id}")
-
+    def get_settting(self, setting: str, server_id: int) -> Any:
+        logger.debug(f"getting {setting} for server {server_id}")
         c = self.conn.cursor()
         c.execute(
             """
-            SELECT prefix
+            SELECT ?
             FROM settings
             WHERE server_id = ?
         """,
-            (server_id,),
+            (setting, server_id),
         )
 
         return c.fetchone()[0]  # type: ignore
