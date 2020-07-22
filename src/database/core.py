@@ -57,7 +57,7 @@ class Database:
 
         self.conn.commit()
 
-    def get_settting(self, setting: str, server_id: int) -> Any:
+    def get_setting(self, setting: str, server_id: int) -> Any:
         logger.debug(f"getting {setting} for server {server_id}")
         c = self.conn.cursor()
         c.execute(
@@ -66,7 +66,7 @@ class Database:
             FROM settings
             WHERE server_id = ?
         """,
-            (server_id,),
+                (server_id,),
         )
 
         return c.fetchone()[0]  # type: ignore

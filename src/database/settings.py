@@ -96,7 +96,7 @@ class PrefixSetting(Setting):
         return not value.isspace()
 
     def get_value(self, bot, server_id: int) -> bool:
-        return bot.db.get_settting("prefix", server_id)
+        return bot.db.get_setting("prefix", server_id)
 
     def _set_value_core(self, bot, server_id: int, value: str) -> None:
         return bot.db.update_setting(server_id, "prefix", value)
