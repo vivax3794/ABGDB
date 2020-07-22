@@ -59,5 +59,14 @@ class SettingsCog(commands.Cog, name="settings-group"):  # type: ignore
         """
         pass
 
+    @commands.has_permissions(manage_guild=True)
+    @commands.command(name="change-setting")
+    async def change_setting_command(self, ctx: commands.Context, setting: str, new_value: str) -> None:
+        """
+        Alias for 'settings change'
+        """
+        await self.change(ctx, setting, new_value)
+
+
 def setup(bot: Bot) -> None:
     bot.add_cog(SettingsCog(bot))
