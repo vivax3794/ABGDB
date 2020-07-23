@@ -34,11 +34,13 @@ class SettingsCog(commands.Cog, name="settings-group"):  # type: ignore
             await self.list_settings(ctx)
             return
 
+        setting = setting.lower()
+
         if setting not in self.bot.settings:
             embed = discord.Embed(
                     title="Not Found",
                     color=discord.Color.red(),
-                    description=f"`{setting} is not a valid setting`"
+                    description=f"`{setting}` is not a valid setting"
                     )
 
         else:
@@ -53,19 +55,43 @@ class SettingsCog(commands.Cog, name="settings-group"):  # type: ignore
 
     @commands.has_permissions(manage_guild=True)
     @settings_group.command()
-    async def change(self, ctx: commands.Context, setting: str, new_value: str) -> None:
+    async def change(self, ctx: commands.Context, setting: str, *, new_value: str) -> None:
         """
         Change the value of a setting.
         """
-        pass
+        setting = setting.lower()
+
+        if setting not in self.bot.settings:
+            embed = discord.Embed(
+                    title="Not Found",
+                    color=discord.Color.red(),
+                    description=f"`{setting}` is not a valid setting"
+                    )
+        else:
+            try:
+                self.bot.settings[setting].set_value(self.bot, ctx.guild.id, new_value)
+            except ValueError:
+                embed = discord.Embed(
+                        title="Invalid setting value",
+                        color=discord.Color.red(),
+                        description=f"```\n{new_value}``` is not a valid setting for `{setting}`"
+                        )
+            else:
+                embed = discord.Embed(
+                        title="Setting changed",
+                        color=discord.Color.green(),
+                        description=f"`{setting}` changed to ```\n{new_value}```"
+                        )
+
+        await ctx.send(embed=embed)
 
     @commands.has_permissions(manage_guild=True)
     @commands.command(name="change-setting")
-    async def change_setting_command(self, ctx: commands.Context, setting: str, new_value: str) -> None:
+    async def change_setting_command(self, ctx: commands.Context, setting: str, *, new_value: str) -> None:
         """
         Alias for 'settings change'
         """
-        await self.change(ctx, setting, new_value)
+        await self.change.callback(self, ctx, setting, new_value=new_value)
 
 
 def setup(bot: Bot) -> None:
