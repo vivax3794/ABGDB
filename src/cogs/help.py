@@ -64,6 +64,26 @@ class HelpCommand(commands.HelpCommand, Spy):
                 )
         await self._send_embed(embed)
 
+    async def send_group_help(self, group: commands.Group) -> None:
+        allowed_commands = await self.filter_commands(group.commands)
+        signature = self.get_command_signature(group)
+
+        embed = discord.Embed(
+                title=group.qualified_name,
+                description=f"""```\n{signature}```{group.help}""",
+                color=discord.Color.blue()
+                )
+        embed.add_field(
+                name="subcommands",
+                inline=False,
+                value="\n".join(
+                    f"`{command.name}` - {command.short_doc}"
+                    for command in allowed_commands
+                    )
+                )
+
+        await self._send_embed(embed)
+
 
 def setup(bot: Bot) -> None:
     bot.remove_command("help")
