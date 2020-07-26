@@ -86,11 +86,8 @@ class SettingsCog(commands.Cog, name="settings-group"):  # type: ignore
         await ctx.send(embed=embed)
 
     @commands.has_permissions(manage_guild=True)
-    @commands.command(name="change-setting")
+    @commands.command(name="change-setting", help=change.help)
     async def change_setting_command(self, ctx: commands.Context, setting: str, *, new_value: str) -> None:
-        """
-        Alias for 'settings change'
-        """
         await self.change.callback(self, ctx, setting, new_value=new_value)
 
 
