@@ -7,7 +7,6 @@ class Setting(ABC):
     Represents a setting and has functions to interact with it.
     these are the args for all the functions you should overwrite (validate_input, get_value, set_value)
     args:
-        db - Database: the database
         bot - Bot: the bot in case it needs to fetch something from the discord api
         server_id - id: the server id of the server this setting is activated from.
     """
@@ -31,10 +30,11 @@ class Setting(ABC):
     @abstractmethod
     def _set_value_core(self, bot, server_id: int, new_value: str) -> None:
         """
-        Set a new value for the setting
+        Set a new value for the settin
+        validating the input is done before being passed to this function
 
         args:
-            new_value - str: the new value to set the setting, validating the input is done before being passed to this function
+            new_value - str: the new value to set the setting
         """
         return NotImplemented
 
