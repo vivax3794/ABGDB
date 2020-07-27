@@ -30,6 +30,8 @@ TOKEN = "your bot token"
 ```
 if you dont know were you can get a bot token here is a nice article: <https://www.writebots.com/discord-bot-token/>
 
+better config system comming soon.
+
 now you can run the bot (make sure to run with python3):
 ```bash
 python -m src
