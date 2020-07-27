@@ -13,7 +13,7 @@ MAPPING = Dict[Optional[commands.Cog], List[commands.Command]]
 class HelpCommand(commands.HelpCommand, Spy):
     """show this"""
 
-    async def _send_embed(self, embed: discord.Embed) -> None:
+    async def send_embed(self, embed: discord.Embed) -> None:
         """
         Send an embed to the help destionation
         """
@@ -41,7 +41,7 @@ class HelpCommand(commands.HelpCommand, Spy):
                 inline=False
             )
 
-        await self._send_embed(embed)
+        await self.send_embed(embed)
 
     async def send_command_help(self, command: commands.Command) -> None:
         embed = discord.Embed(
@@ -50,7 +50,7 @@ class HelpCommand(commands.HelpCommand, Spy):
                 color=discord.Color.blue()
                 )
 
-        await self._send_embed(embed)
+        await self.send_embed(embed)
 
     async def send_cog_help(self, cog: commands.Cog) -> None:
         allowed_commands = await self.filter_commands(cog.get_commands())
@@ -62,7 +62,7 @@ class HelpCommand(commands.HelpCommand, Spy):
                     ),
                 color=discord.Color.blue()
                 )
-        await self._send_embed(embed)
+        await self.send_embed(embed)
 
     async def send_group_help(self, group: commands.Group) -> None:
         allowed_commands = await self.filter_commands(group.commands)
@@ -82,7 +82,7 @@ class HelpCommand(commands.HelpCommand, Spy):
                     )
                 )
 
-        await self._send_embed(embed)
+        await self.send_embed(embed)
 
     async def send_error_message(self, error: str) -> None:
         embed = discord.Embed(
@@ -90,7 +90,7 @@ class HelpCommand(commands.HelpCommand, Spy):
                 description=error
                 )
 
-        await self._send_embed(embed)
+        await self.send_embed(embed)
 
 
 def setup(bot: Bot) -> None:
