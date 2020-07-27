@@ -74,7 +74,7 @@ class HelpCommand(commands.HelpCommand, Spy):
                 color=discord.Color.blue()
                 )
         embed.add_field(
-                name="subcommands",
+                name="Sub Commands",
                 inline=False,
                 value="\n".join(
                     f"`{command.name}` - {command.short_doc}"
