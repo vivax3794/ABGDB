@@ -84,6 +84,14 @@ class HelpCommand(commands.HelpCommand, Spy):
 
         await self._send_embed(embed)
 
+    async def send_error_message(self, error: str) -> None:
+        embed = discord.Embed(
+                color=discord.Color.red(),
+                description=error
+                )
+
+        await self._send_embed(embed)
+
 
 def setup(bot: Bot) -> None:
     bot.remove_command("help")
