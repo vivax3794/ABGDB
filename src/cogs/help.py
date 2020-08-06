@@ -1,7 +1,6 @@
 from typing import Dict, Optional, List
 
 from ..bot import Bot
-from ..utils import Spy
 
 import discord
 from discord.ext import commands
@@ -10,7 +9,7 @@ from discord.ext import commands
 MAPPING = Dict[Optional[commands.Cog], List[commands.Command]]
 
 
-class HelpCommand(commands.HelpCommand, Spy):
+class HelpCommand(commands.HelpCommand):
     """show this"""
 
     async def send_embed(self, embed: discord.Embed) -> None:
