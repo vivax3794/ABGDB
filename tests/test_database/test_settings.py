@@ -1,12 +1,14 @@
 from typing import Type
+from unittest import mock
+import copy
 
-from src.database.settings import Setting
+from src.database import settings
 
 from pytest import raises
 
 
-def generate_setting_cls(validate_return: bool) -> Type[Setting]:
-    class Foo(Setting):
+def generate_setting_cls(validate_return: bool) -> Type[settings.Setting]:
+    class Foo(settings.Setting):
         set_was_called = False
 
         @staticmethod
@@ -56,3 +58,28 @@ class TestValidate:
         with raises(ValueError):
             bar.set_value(None, None, None)  # type: ignore
         assert not Foo.set_was_called, "Foo.set_value_core was called"  # type: ignore
+
+
+class TestConvertor:
+    def setup(self):
+        self.cls = copy.deepcopy(settings.ConverterSetting)
+        self.cls._set_value_core = mock.Mock()
+        self.cls.get_value = mock.Mock()
+        self.cls.__abstractmethods__ = set()
+
+    def test_convertor_sucess(self):
+        self.cls._converter = mock.Mock(return_value="abc")
+        Foo = self.cls()
+
+        Foo.set_value(None, None, None)  # type: ignore
+
+        Foo._set_value_core.assert_called_once_with(None, None, "abc")
+
+    def test_convertor_fail(self):
+        # results in ValueError
+        self.cls._converter = lambda s, v: max([])
+        Foo = self.cls()
+
+        with raises(ValueError):
+            Foo.set_value(None, None, None)  # type: ignore
+        Foo._set_value_core.assert_not_called()
