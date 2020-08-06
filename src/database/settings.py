@@ -78,7 +78,7 @@ class ConverterSetting(Setting, Generic[T]):
 
 
 class BoolConvertorSetting(ConverterSetting):
-    def converter(self, value: str) -> bool:
+    def _converter(self, value: str) -> bool:
         """
         Convert a value to a bool.
         """
