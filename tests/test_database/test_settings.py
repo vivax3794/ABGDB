@@ -24,35 +24,35 @@ def generate_setting_cls(validate_return: bool) -> Type[Setting]:
     return Foo
 
 
-def test_generate_setting_cls_true() -> None:
-    """
-    Test code needs testing :P
-    """
-    foo = generate_setting_cls(True)
-    assert foo()._validate_input(None, None, None) is True  # type: ignore
+class TestGenerateSetting:
+    def test_true(self) -> None:
+        """
+        Test code needs testing :P
+        """
+        foo = generate_setting_cls(True)
+        assert foo()._validate_input(None, None, None) is True  # type: ignore
+
+    def test_false(self) -> None:
+        """
+        Test code needs testing :P
+        """
+        foo = generate_setting_cls(False)
+        assert foo()._validate_input(None, None, None) is False  # type: ignore
 
 
-def test_generate_setting_cls_false() -> None:
-    """
-    Test code needs testing :P
-    """
-    foo = generate_setting_cls(False)
-    assert foo()._validate_input(None, None, None) is False  # type: ignore
+class TestValidate:
+    def test_validate_pass(self) -> None:
+        Foo = generate_setting_cls(True)
+        bar = Foo()
 
-
-def test_validate_pass() -> None:
-    Foo = generate_setting_cls(True)
-    bar = Foo()
-
-    bar.set_value(None, None, None)  # type: ignore
-
-    assert Foo.set_was_called, "Foo.set_value_core was not called"  # type: ignore
-
-
-def test_validate_fail() -> None:
-    Foo = generate_setting_cls(False)
-    bar = Foo()
-
-    with raises(ValueError):
         bar.set_value(None, None, None)  # type: ignore
-    assert not Foo.set_was_called, "Foo.set_value_core was called"  # type: ignore
+
+        assert Foo.set_was_called, "Foo.set_value_core was not called"  # type: ignore
+
+    def test_validate_fail(self) -> None:
+        Foo = generate_setting_cls(False)
+        bar = Foo()
+
+        with raises(ValueError):
+            bar.set_value(None, None, None)  # type: ignore
+        assert not Foo.set_was_called, "Foo.set_value_core was called"  # type: ignore
