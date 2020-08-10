@@ -2,6 +2,7 @@ from contextlib import redirect_stdout
 from io import StringIO
 
 from discord.ext import commands
+from loguru import logger
 
 from ..bot import Bot
 from ..config import config
@@ -52,6 +53,53 @@ class AdminCog(commands.Cog, name="admin"):  # type: ignore
         code = "\n".join(formatted_lines)
 
         return code
+
+    @commands.command(aliases=["r-cog"])
+    async def unload(self, ctx: commands.Context, cog: str):
+        """
+        unload a cog.
+
+        use '*' to unload all.
+        """
+        if cog == "*":
+            self.bot.unload_all_cogs()
+            await ctx.send("unloaded all cogs")
+        else:
+            self.bot.unload_extension(f"src.cogs.{cog}")
+            logger.info(f"unloaded cog: {cog}")
+            await ctx.send(f"unloaded cog {cog}")
+
+    @commands.command(aliases=["a-cog"])
+    async def load(self, ctx: commands.Context, cog: str):
+        """
+        load a cog.
+
+        use '*' to load all.
+        """
+        if cog == "*":
+            self.bot.load_cogs()
+            await ctx.send("loaded all cogs")
+        else:
+            self.bot.load_extension(f"src.cogs.{cog}")
+            logger.info(f"unloaded cog: {cog}")
+            await ctx.send(f"loaded cog {cog}")
+
+    @commands.command(aliases=["restart"])
+    async def reload(self, ctx: commands.Context, cog: str) -> None:
+        """
+        reload a cog.
+
+        use '*' to reload all.
+        """
+        if cog == "*":
+            self.bot.unload_all_cogs()
+            self.bot.load_cogs()
+            await ctx.send("reloaded all cogs")
+        else:
+            self.bot.unload_extension(f"src.cogs.{cog}")
+            self.bot.load_extension(f"src.cogs.{cog}")
+            logger.info(f"reloaded cog: {cog}")
+            await ctx.send(f"reloaded cog: {cog}")
 
 
 def setup(bot: Bot) -> None:

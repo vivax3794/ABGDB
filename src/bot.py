@@ -25,6 +25,11 @@ class Bot(commands.Bot):
             self.load_extension(f"src.cogs.{cog}")
             logger.info(f"loaded cog: {cog}")
 
+    def unload_all_cogs(self) -> None:
+        for cog in config.cogs:
+            self.unload_extension(f"src.cogs.{cog}")
+            logger.info(f"unloaded cog: {cog}")
+
     async def get_prefix(self, message: discord.Message) -> str:
         logger.debug(f"getting prefix for message: {message.id}")
         server_id = message.guild.id
