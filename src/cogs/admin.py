@@ -29,7 +29,8 @@ class AdminCog(commands.Cog, name="admin"):  # type: ignore
         that last newline is very important
         """
         code = self._format_code(code)
-        globals_ = {**globals(),
+        globals_ = {
+            **globals(),
             "ctx": ctx,
             "bot": self.bot,
             "db": self.bot.db,
@@ -90,11 +91,15 @@ class AdminCog(commands.Cog, name="admin"):  # type: ignore
         reload a cog.
 
         use '*' to reload all.
+        you can pass 'config' to reload the config.
         """
         if cog == "*":
             self.bot.unload_all_cogs()
             self.bot.load_cogs()
             await ctx.send("reloaded all cogs")
+        elif cog == "config":
+            config.reload_config()
+            await ctx.send("reloaded the config.yaml")
         else:
             self.bot.unload_extension(f"src.cogs.{cog}")
             self.bot.load_extension(f"src.cogs.{cog}")

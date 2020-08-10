@@ -17,11 +17,13 @@ admins:
         yes:
                 - yes
                 - you can count on it!
+                - why not? cant hurt, can it?
         no:
                 - never
                 - of course no!
                 - would never work.
         maybe:
                 - idk
-                - dont aske
+                - dont ask me
                 - I dont care
+                - shut up I am sleeping!

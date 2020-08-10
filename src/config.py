@@ -17,6 +17,16 @@ class ConfigClass:
     ball: t.Dict[str, t.List[str]]
 
     def __init__(self) -> None:
+        self.reload_config()
+
+    def load_env_var(self, name: str) -> str:
+        var = os.getenv(name)
+        if var is None:
+            raise KeyError(f"Enviroment var '{name}' not found")
+
+        return var
+
+    def reload_config(self):
         logger.info("loading config.yaml")
         with open("config.yaml") as f:
             self.raw_data = yaml.load(f, Loader=yaml.BaseLoader)
@@ -29,13 +39,6 @@ class ConfigClass:
         # .env vars
         logger.info("loading enviroment vars")
         self.token = self.load_env_var("TOKEN")
-
-    def load_env_var(self, name: str) -> str:
-        var = os.getenv(name)
-        if var is None:
-            raise KeyError(f"Enviroment var '{name}' not found")
-
-        return var
 
 
 config = ConfigClass()
