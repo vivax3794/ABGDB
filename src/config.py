@@ -33,7 +33,7 @@ class ConfigClass:
 
         self.database = self.raw_data["database"]
         self.cogs = self.raw_data["cogs"]
-        self.admins = self.raw_data["admins"]
+        self.admins = [int(id_) for id_ in self.raw_data["admins"]]
         self.ball = self.raw_data["8ball"]
 
         # .env vars

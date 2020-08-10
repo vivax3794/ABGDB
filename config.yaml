@@ -11,6 +11,7 @@ cogs:
 # these are not admins on your server, but users that can run dangerous commands on the bot.
 admins:
         - 366331361583169537  # vivax, the creator of the bot.
+        - 515929112590811146
 
 
 8ball:
