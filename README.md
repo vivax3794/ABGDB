@@ -18,7 +18,8 @@ cd ABGDB
 pipenv sync
 ```
 
-then make a `.env` file with your discord token like this: ```
+then make a `.env` file with your discord token like this:
+```
 TOKEN="your token here"
 ```
 
