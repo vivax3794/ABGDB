@@ -16,7 +16,7 @@ from src.cogs.admin import AdminCog
     ],
 )
 async def test_admin_check_works_correctly(admins_list, user_id, result):
-    with patch("src.cogs.admin.ADMINS", admins_list):
+    with patch("src.cogs.admin.config.admins", admins_list):
         ctx_mock = Mock()
         ctx_mock.author.id = user_id
 

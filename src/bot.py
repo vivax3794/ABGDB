@@ -6,7 +6,7 @@ from loguru import logger
 
 from .database import Database
 from .database.settings import SETTINGS
-from config import COGS
+from .config import config
 
 
 class Bot(commands.Bot):
@@ -17,8 +17,11 @@ class Bot(commands.Bot):
         self.load_cogs()
         self.settings = SETTINGS
 
+    def run(self) -> None:
+        super().run(config.token)
+
     def load_cogs(self) -> None:
-        for cog in COGS:
+        for cog in config.cogs:
             self.load_extension(f"src.cogs.{cog}")
             logger.info(f"loaded cog: {cog}")
 

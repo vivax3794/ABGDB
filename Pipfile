@@ -13,6 +13,7 @@ loguru = "*"
 pytest-asyncio = "*"
 flake8 = "*"
 mypy = "*"
+pyyaml = "*"
 
 [requires]
 python_version = "3.8"

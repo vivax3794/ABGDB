@@ -1,0 +1,12 @@
+# the file to store settings and user data in
+database: Database.db
+
+# cogs to load, if you dont know what they are just leave them like this
+cogs:
+        - help
+        - settings
+        - admin
+
+# these are not admins on your server, but users that can run dangerous commands on the bot.
+admins:
+        - 366331361583169537  # vivax, the creator of the bot.

@@ -4,7 +4,7 @@ from io import StringIO
 from discord.ext import commands
 
 from ..bot import Bot
-from config import ADMINS
+from ..config import config
 
 
 class AdminCog(commands.Cog, name="admin"):  # type: ignore
@@ -13,7 +13,7 @@ class AdminCog(commands.Cog, name="admin"):  # type: ignore
         self.bot = bot
 
     async def cog_check(self, ctx: commands.Context) -> bool:
-        return ctx.author.id in ADMINS or await self.bot.is_owner(ctx.author)
+        return ctx.author.id in config.admins or await self.bot.is_owner(ctx.author)
 
     @commands.command(name="eval")
     async def eval_command(self, ctx: commands.Context, *, code: str) -> None:
