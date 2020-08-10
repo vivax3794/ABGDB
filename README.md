@@ -10,7 +10,7 @@ it is not hosted anywhere and is only online when I am working on it, so like **
 
 
 ## run bot locally 
-you need [pipenv]() to run this bot.
+you need [pipenv](https://pypi.org/project/pipenv/) to run this bot.
 clone the repo and setup the env:
 ```bash
 git clone https://github.com/vivax3794/ABGDB
