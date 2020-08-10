@@ -29,7 +29,7 @@ class AdminCog(commands.Cog, name="admin"):  # type: ignore
         that last newline is very important
         """
         code = self._format_code(code)
-        globals_ = {
+        globals_ = {**globals(),
             "ctx": ctx,
             "bot": self.bot,
             "db": self.bot.db,

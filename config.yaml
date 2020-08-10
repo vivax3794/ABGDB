@@ -6,7 +6,22 @@ cogs:
         - help
         - settings
         - admin
+        - fun
 
 # these are not admins on your server, but users that can run dangerous commands on the bot.
 admins:
         - 366331361583169537  # vivax, the creator of the bot.
+
+
+8ball:
+        yes:
+                - yes
+                - you can count on it!
+        no:
+                - never
+                - of course no!
+                - would never work.
+        maybe:
+                - idk
+                - dont aske
+                - I dont care

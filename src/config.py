@@ -14,6 +14,7 @@ class ConfigClass:
     cogs: t.List[str]
     admins: t.List[int]
     token: str
+    ball: t.Dict[str, t.List[str]]
 
     def __init__(self) -> None:
         logger.info("loading config.yaml")
@@ -23,6 +24,7 @@ class ConfigClass:
         self.database = self.raw_data["database"]
         self.cogs = self.raw_data["cogs"]
         self.admins = self.raw_data["admins"]
+        self.ball = self.raw_data["8ball"]
 
         # .env vars
         logger.info("loading enviroment vars")
