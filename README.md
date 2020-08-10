@@ -10,38 +10,29 @@ it is not hosted anywhere and is only online when I am working on it, so like **
 
 
 ## run bot locally 
-this bot uses python3.8
-
-first clone the repo and cd into it:
+you need [pipenv]() to run this bot.
+clone the repo and setup the env:
 ```bash
 git clone https://github.com/vivax3794/ABGDB
 cd ABGDB
+pipenv sync
 ```
-it is recommended to create virtualenviroment, but that will not be coverd here.
 
-then install the used libs with pip
+then make a `.env` file with your discord token like this: ```
+TOKEN="your token here"
+```
+
+and then you are ready to run the bot!
 ```bash
-pip install -r requirements.txt
+pipenv run bot
 ```
 
-than add a file call `config_SECRET.py` with these content:
-```python
-TOKEN = "your bot token"
-```
-if you dont know were you can get a bot token here is a nice article: <https://www.writebots.com/discord-bot-token/>
-
-better config system comming soon.
-
-now you can run the bot (make sure to run with python3):
-```bash
-python -m src
-```
 ### running tests
 want to make sure the bot is working?
 
-simply run pytest:
+simply run the tests:
 ```bash
-python -m pytest tests/
+pipenv run test
 ```
 
 ## TODO list
