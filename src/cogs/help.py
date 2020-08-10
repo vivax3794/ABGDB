@@ -1,6 +1,7 @@
 from typing import Dict, Optional, List
 
 from ..bot import Bot
+from loguru import logger
 
 import discord
 from discord.ext import commands
@@ -72,14 +73,16 @@ class HelpCommand(commands.HelpCommand):
                 description=f"""```\n{signature}```{group.help}""",
                 color=discord.Color.blue()
                 )
-        embed.add_field(
-                name="Sub Commands",
-                inline=False,
-                value="\n".join(
-                    f"`{command.name}` - {command.short_doc}"
-                    for command in allowed_commands
+
+        if len(allowed_commands) != 0:
+            embed.add_field(
+                    name="Sub Commands",
+                    inline=False,
+                    value="\n".join(
+                        f"`{command.name}` - {command.short_doc}"
+                        for command in allowed_commands
+                        )
                     )
-                )
 
         await self.send_embed(embed)
 
