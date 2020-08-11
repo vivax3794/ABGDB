@@ -12,7 +12,6 @@ cogs:
 # these are not admins on your server, but users that can run dangerous commands on the bot.
 admins:
         - 366331361583169537  # vivax, the creator of the bot.
-        - 515929112590811146
 
 invite: https://discord.com/oauth2/authorize?client_id=723933097997107260&permissions=8&scope=bot
 source: https://github.com/vivax3794/ABGDB
