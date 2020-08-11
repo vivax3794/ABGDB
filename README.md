@@ -5,8 +5,7 @@ this is a bad bot, don't use it.
 unless you are me.
 
 ## invite bot
-you can invite the bot with [this link](https://discord.com/api/oauth2/authorize?client_id=723933097997107260&permissions=8&scope=bot), idk why the hell you would want this bot tho?!
-it is not hosted anywhere and is only online when I am working on it, so like **dont** invite it. it wont be useful.
+you can invite the bot with [this link](https://discord.com/api/oauth2/authorize?client_id=723933097997107260&permissions=8&scope=bot) 
 
 
 ## run bot locally 
