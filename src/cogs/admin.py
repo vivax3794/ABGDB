@@ -108,6 +108,11 @@ class AdminCog(commands.Cog, name="admin"):  # type: ignore
 
     @commands.command()
     async def panic(self, ctx: commands.Context) -> None:
+        """
+        SHUTDOWN THE BOT
+
+        if this is running on heroku it will just re deploy after a few seconds.
+        """
         await ctx.send("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH...... *dies*")
         await self.bot.logout()
 
