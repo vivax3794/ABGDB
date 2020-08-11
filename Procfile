@@ -1,1 +1,1 @@
-worker: pipenv run bot
+worker: pipenv sync; pipenv run bot
