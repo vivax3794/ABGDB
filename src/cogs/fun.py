@@ -91,6 +91,9 @@ class FunCog(commands.Cog, name="fun"):  # type: ignore
 
     @morse.command(aliases=["d"])
     async def decode(self, ctx: commands.Context, *, morse_code: str) -> None:
+        """
+        Decode a morse code message.
+        """
         reversed_table = reverse_dict(MORSE_CODE_TABLE)
 
         try:

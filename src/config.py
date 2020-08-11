@@ -14,6 +14,8 @@ class ConfigClass:
     cogs: t.List[str]
     admins: t.List[int]
     token: str
+    invite: str
+    source: str
     ball: t.Dict[str, t.List[str]]
 
     def __init__(self) -> None:
@@ -34,6 +36,8 @@ class ConfigClass:
         self.database = self.raw_data["database"]
         self.cogs = self.raw_data["cogs"]
         self.admins = [int(id_) for id_ in self.raw_data["admins"]]
+        self.invite = self.raw_data["invite"]
+        self.source = self.raw_data["source"]
         self.ball = self.raw_data["8ball"]
 
         # .env vars
