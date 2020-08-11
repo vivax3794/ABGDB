@@ -32,9 +32,13 @@ class Bot(commands.Bot):
 
     async def get_prefix(self, message: discord.Message) -> str:
         logger.debug(f"getting prefix for message: {message.id}")
-        server_id = message.guild.id
+        if message.guild is None:
+            # we are in a dm
+            prefix = "!"
+        else:
+            server_id = message.guild.id
 
-        prefix = self.settings["prefix"].get_value(self, server_id)
+            prefix = self.settings["prefix"].get_value(self, server_id)
 
         return commands.when_mentioned_or(prefix)(self, message)
 
@@ -44,10 +48,6 @@ class Bot(commands.Bot):
     async def on_message(self, message: discord.Message) -> None:
         if message.author.id == self.user.id:
             pass  # logger.debug("not replying to my self")
-        elif message.guild is None:
-            await message.channel.send(
-                "sorry but I can not respond to commands in dms since I dont know what prefix to use."
-            )
         else:
             await self.process_commands(message)
 
