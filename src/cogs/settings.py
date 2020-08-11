@@ -23,6 +23,7 @@ class SettingsCog(commands.Cog, name="settings-group"):  # type: ignore
 
         await ctx.send(embed=embed)
 
+    @commands.guild_only()
     @commands.group(name="settings", aliases=["config"], invoke_without_command=True)
     async def settings_group(self, ctx: commands.Context, setting: Optional[str] = None) -> None:
         """
@@ -85,6 +86,7 @@ class SettingsCog(commands.Cog, name="settings-group"):  # type: ignore
 
         await ctx.send(embed=embed)
 
+    @commands.guild_only()
     @commands.has_permissions(manage_guild=True)
     @commands.command(name="change-setting", help=change.help)
     async def change_setting_command(self, ctx: commands.Context, setting: str, *, new_value: str) -> None:
