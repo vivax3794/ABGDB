@@ -70,3 +70,9 @@ class Database:
         )
 
         return c.fetchone()[0]  # type: ignore
+
+    def ensoure_in_db(self, server_id: int) -> None:
+        try:
+            self.get_setting("prefix", server_id)
+        except TypeError:
+            self.add_server(server_id)

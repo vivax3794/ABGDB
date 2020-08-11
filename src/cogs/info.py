@@ -7,13 +7,16 @@ from ..bot import Bot
 from ..config import config
 
 
-class InfoCog(commands.Cog, name="info"):  # type: ignore
+class InfoCog(commands.Cog, name="info-commands"):  # type: ignore
     def __init__(self, bot: Bot) -> None:
         super().__init__()
         self.bot = bot
 
     @commands.command()
     async def info(self, ctx: commands.Context) -> None:
+        """
+        Show info about the bot, like invite.
+        """
         info_embed = discord.Embed(title="Bot Info", color=discord.Color.blue())
 
         # get info

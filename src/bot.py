@@ -30,6 +30,13 @@ class Bot(commands.Bot):
             self.unload_extension(f"src.cogs.{cog}")
             logger.info(f"unloaded cog: {cog}")
 
+    async def on_ready(self) -> None:
+        """
+        make sure are guilds are in the db.
+        """
+        for guild in self.guilds:
+            self.db.ensoure_in_db(guild.id)
+
     async def get_prefix(self, message: discord.Message) -> str:
         logger.debug(f"getting prefix for message: {message.id}")
         if message.guild is None:
