@@ -2,6 +2,8 @@ from unittest.mock import patch
 
 from src import utils
 
+import pytest
+
 
 def test_spy() -> None:
     class Foo(utils.Spy):
