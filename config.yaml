@@ -16,13 +16,15 @@ admins:
 
 8ball:
         yes:
-                - yes
                 - you can count on it!
                 - why not? cant hurt, can it?
+                - of course!
+                - my predictions say yes.
         no:
                 - never
                 - of course no!
                 - would never work.
+                - that will always be a no
         maybe:
                 - idk
                 - dont ask me
