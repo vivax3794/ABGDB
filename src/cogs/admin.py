@@ -1,5 +1,6 @@
 from contextlib import redirect_stdout
 from io import StringIO
+import sys
 
 from discord.ext import commands
 from loguru import logger
@@ -105,6 +106,11 @@ class AdminCog(commands.Cog, name="admin"):  # type: ignore
             self.bot.load_extension(f"src.cogs.{cog}")
             logger.info(f"reloaded cog: {cog}")
             await ctx.send(f"reloaded cog: {cog}")
+
+    @commands.command()
+    async def panic(self, ctx: commands.Context) -> None:
+        await ctx.send("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH...... *dies*")
+        sys.exit()
 
 
 def setup(bot: Bot) -> None:
