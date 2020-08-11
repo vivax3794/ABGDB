@@ -1,6 +1,3 @@
-# the file to store settings and user data in
-database: Database.db
-
 # cogs to load, if you dont know what they are just leave them like this
 cogs:
         - help

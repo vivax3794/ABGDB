@@ -33,7 +33,6 @@ class ConfigClass:
         with open("config.yaml") as f:
             self.raw_data = yaml.load(f, Loader=yaml.BaseLoader)
 
-        self.database = self.raw_data["database"]
         self.cogs = self.raw_data["cogs"]
         self.admins = [int(id_) for id_ in self.raw_data["admins"]]
         self.invite = self.raw_data["invite"]
@@ -43,6 +42,7 @@ class ConfigClass:
         # .env vars
         logger.info("loading enviroment vars")
         self.token = self.load_env_var("TOKEN")
+        self.database = self.load_env_var("DATABASE_URL")
 
 
 config = ConfigClass()

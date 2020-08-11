@@ -1,78 +1,66 @@
-import sqlite3
+import postgres
 from typing import Any
 
 from loguru import logger
 
+from ..config import config
+
 
 class Database:
-    conn: sqlite3.Connection
-
-    def connect_to_database(self, file_name: str) -> None:
+    def connect_to_database(self) -> None:
         """
         Create a New Database.
         """
 
         logger.info("connecting to database")
-        self.conn = sqlite3.connect(file_name)
+        self.db = postgres.Postgres(config.database)
 
         logger.info("creating missing tabels")
-        c = self.conn.cursor()
-
-        c.execute(
+        self.db.run(
             """
             CREATE TABLE IF NOT EXISTS settings (
-                server_id INTEGER PRIMARY KEY,
+                server_id BIGINT PRIMARY KEY,
                 prefix text
             )
         """
         )
 
-        self.conn.commit()
-
     def add_server(self, server_id: int) -> None:
         logger.debug(f"adding settings for server {server_id}")
 
-        c = self.conn.cursor()
-        c.execute(
+        self.db.run(
             """
-            INSERT INTO settings (server_id, prefix) VALUES (?, ?)
+            INSERT INTO settings (server_id, prefix) VALUES (%(id)s, '!')
         """,
-            (server_id, "!"),
+            {"id": server_id},
         )
-
-        self.conn.commit()
 
     def update_setting(self, server_id: int, setting: str, new_value: Any) -> None:
         logger.debug(f"updating {setting} for server {server_id} to '{new_value}'")
 
-        c = self.conn.cursor()
-        c.execute(
+        self.db.run(
             f"""
             UPDATE settings
-            SET {setting} = ?
-            WHERE server_id = ?
+            SET {setting} = %(value)s
+            WHERE server_id = %(id)s
         """,
-            (new_value, server_id),
+            {"value": new_value, "id": server_id},
         )
-
-        self.conn.commit()
 
     def get_setting(self, setting: str, server_id: int) -> Any:
         logger.debug(f"getting {setting} for server {server_id}")
-        c = self.conn.cursor()
-        c.execute(
-                f"""
+        value = self.db.one(
+            f"""
             SELECT {setting}
             FROM settings
-            WHERE server_id = ?
+            WHERE server_id = %(id)s
         """,
-                (server_id,),
+            {"id": server_id},
         )
 
-        return c.fetchone()[0]  # type: ignore
+        return value
 
     def ensoure_in_db(self, server_id: int) -> None:
-        try:
-            self.get_setting("prefix", server_id)
-        except TypeError:
+        value = self.get_setting("prefix", server_id)
+        if value is None:
             self.add_server(server_id)
