@@ -1,11 +1,15 @@
 import random
+
+import discord
 from discord.ext import commands
+from loguru import logger
 
 from ..bot import Bot
 from ..config import config
+from ..utils import reverse_dict
 
 
-MorseCodeTable = {
+MORSE_CODE_TABLE = {
         "a": ".-",
         "b": "-...",
         "c": "-.-.",
@@ -23,7 +27,7 @@ MorseCodeTable = {
         "o": "---",
         "p": ".--.",
         "q": "--.-",
-        "r": ".--.",
+        "r": ".-.",
         "s": "...",
         "t": "-",
         "u": "..-",
@@ -79,11 +83,24 @@ class FunCog(commands.Cog, name="fun"):  # type: ignore
         encode a morse code message.
         """
         try:
-            morse_code_message = " ".join(map(MorseCodeTable.__getitem__, message))
+            morse_code_message = " ".join(map(MORSE_CODE_TABLE.__getitem__, message.lower()))
         except KeyError:
             await ctx.send("unknow characther in message.")
         else:
             await ctx.send(f"`{morse_code_message}`")
+
+    @morse.command(aliases=["d"])
+    async def decode(self, ctx: commands.Context, *, morse_code: str) -> None:
+        reversed_table = reverse_dict(MORSE_CODE_TABLE)
+
+        try:
+            message = "".join(map(reversed_table.__getitem__, morse_code.split()))
+        except KeyError as e:
+            logger.info(str(e))
+            await ctx.send("unknow symbol")
+        else:
+            allowed_mentions = discord.AllowedMentions(everyone=False, roles=False, users=False)
+            await ctx.send(message, allowed_mentions=allowed_mentions)
 
 
 def setup(bot: Bot) -> None:
