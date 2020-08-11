@@ -16,7 +16,7 @@ class AdminCog(commands.Cog, name="admin"):  # type: ignore
     async def cog_check(self, ctx: commands.Context) -> bool:
         return ctx.author.id in config.admins or await self.bot.is_owner(ctx.author)
 
-    @commands.command(name="eval")
+    @commands.command(name="eval", aliases=["e"])
     async def eval_command(self, ctx: commands.Context, *, code: str) -> None:
         """
         Run the given python code.
