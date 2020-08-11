@@ -110,6 +110,7 @@ class AdminCog(commands.Cog, name="admin"):  # type: ignore
     @commands.command()
     async def panic(self, ctx: commands.Context) -> None:
         await ctx.send("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH...... *dies*")
+        await self.bot.logout()
         sys.exit()
 
 
