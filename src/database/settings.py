@@ -1,8 +1,13 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar, Generic, Any, Dict
 
+import discord
 
-class Setting(ABC):
+
+V = TypeVar("V")
+
+
+class Setting(ABC, Generic[V]):
     """
     Represents a setting and has functions to interact with it.
     these are the args for all the functions you should overwrite (validate_input, get_value, set_value)
@@ -11,7 +16,7 @@ class Setting(ABC):
         server_id - id: the server id of the server this setting is activated from.
     """
     @abstractmethod
-    def _validate_input(self, bot, server_id: int, value: str) -> bool:
+    def _validate_input(self, bot, server_id: int, value: V) -> bool:
         """
         Check if the input is valid
 
@@ -21,14 +26,14 @@ class Setting(ABC):
         return NotImplemented
 
     @abstractmethod
-    def get_value(self, bot, server_id: int) -> Any:
+    def get_value(self, bot, server_id: int) -> V:
         """
         Return the current value for this setting
         """
         return NotImplemented
 
     @abstractmethod
-    def _set_value_core(self, bot, server_id: int, new_value: str) -> None:
+    def _set_value_core(self, bot, server_id: int, new_value: V) -> None:
         """
         Set a new value for the settin
         validating the input is done before being passed to this function
@@ -38,7 +43,7 @@ class Setting(ABC):
         """
         return NotImplemented
 
-    def set_value(self, bot, server_id: int, new_value: str) -> None:
+    def set_value(self, bot, server_id: int, new_value: V) -> None:
         if self._validate_input(bot, server_id, new_value):
             self._set_value_core(bot, server_id, new_value)
 
@@ -95,13 +100,32 @@ class PrefixSetting(Setting):
     def _validate_input(self, bot, server_id: int, value: str) -> bool:
         return not value.isspace()
 
-    def get_value(self, bot, server_id: int) -> bool:
+    def get_value(self, bot, server_id: int) -> str:
         return bot.db.get_setting("prefix", server_id)
 
     def _set_value_core(self, bot, server_id: int, value: str) -> None:
         return bot.db.update_setting(server_id, "prefix", value)
 
 
+class ModlogSetting(Setting):
+    def _validate_input(self, bot, server_id: int, channel: discord.TextChannel):
+        return True
+
+    def get_value(self, bot, server_id: int) -> discord.TextChannel:
+        channel_id = bot.db.get_setting("modlog", server_id)
+
+        if channel_id == 0:
+            return None
+
+        channel = bot.get_channel(channel_id)
+        return channel
+
+    def _set_value_core(self, bot, server_id: int, channel: discord.TextChannel) -> None:
+        channel_id = channel.id
+        bot.db.update_setting(server_id, "modlog", channel_id)
+
+
 SETTINGS: Dict[str, Setting] = {
-        "prefix": PrefixSetting()
+        "prefix": PrefixSetting(),
+        "modlog": ModlogSetting()
         }

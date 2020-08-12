@@ -20,7 +20,8 @@ class Database:
             """
             CREATE TABLE IF NOT EXISTS settings (
                 server_id BIGINT PRIMARY KEY,
-                prefix text
+                prefix text,
+                modlog BIGINT
             )
         """
         )

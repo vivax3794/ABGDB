@@ -5,6 +5,7 @@ cogs:
         - admin
         - fun
         - info
+        - moderation
 
 # these are not admins on your server, but users that can run dangerous commands on the bot.
 admins:
