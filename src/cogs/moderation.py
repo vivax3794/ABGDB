@@ -12,7 +12,7 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
         super().__init__()
         self.bot = bot
 
-    async def send_embeds(self, ctx: commands.Context, embed: discord.Embed) -> None:
+    async def send_to_modlog(self, ctx: commands.Context, embed: discord.Embed) -> None:
         modlog: discord.TextChannel = self.bot.settings["modlog"].get_value(self.bot, ctx.guild.id)
         await modlog.send(embed=embed)
 
@@ -31,9 +31,7 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
           description=warning,
         )
 
-        icon_url = ctx.guild.icon_url
-        if icon_url != "":
-            embed.set_thumbnail(url=icon_url)
+        embed.set_thumbnail(url=ctx.guild.icon_url)
 
         try:
             await user.send(embed=embed)
