@@ -56,32 +56,36 @@ class SettingsCog(commands.Cog, name="settings-group"):  # type: ignore
 
     @commands.has_permissions(manage_guild=True)
     @settings_group.command()
-    async def change(self, ctx: commands.Context, setting: str, *, new_value: str) -> None:
+    async def change(self, ctx: commands.Context, setting_name: str, *, new_value: str) -> None:
         """
         Change the value of a setting.
         """
-        setting = setting.lower()
+        setting_name = setting_name.lower()
 
-        if setting not in self.bot.settings:
+        if setting_name not in self.bot.settings:
             embed = discord.Embed(
                     title="Not Found",
                     color=discord.Color.red(),
-                    description=f"`{setting}` is not a valid setting"
+                    description=f"`{setting_name}` is not a valid setting"
                     )
         else:
+            setting = self.bot.settings[setting_name]
+            if setting.discord_convertor is not None:
+                new_value = await setting.discord_convertor.convert(ctx, new_value)
+
             try:
-                self.bot.settings[setting].set_value(self.bot, ctx.guild.id, new_value)
+                setting.set_value(self.bot, ctx.guild.id, new_value)
             except ValueError:
                 embed = discord.Embed(
                         title="Invalid setting value",
                         color=discord.Color.red(),
-                        description=f"```\n{new_value}``` is not a valid setting for `{setting}`"
+                        description=f"```\n{new_value}``` is not a valid setting for `{setting_name}`"
                         )
             else:
                 embed = discord.Embed(
                         title="Setting changed",
                         color=discord.Color.green(),
-                        description=f"`{setting}` changed to ```\n{new_value}```"
+                        description=f"`{setting_name}` changed to ```\n{new_value}```"
                         )
 
         await ctx.send(embed=embed)

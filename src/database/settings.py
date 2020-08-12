@@ -1,13 +1,12 @@
 from abc import ABC, abstractmethod
-from typing import TypeVar, Generic, Any, Dict
+from typing import Any, TypeVar, Generic, Dict
 
 import discord
+from discord.ext import commands
 
 
-V = TypeVar("V")
-
-
-class Setting(ABC, Generic[V]):
+class Setting(ABC):
+    discord_convertor = None
     """
     Represents a setting and has functions to interact with it.
     these are the args for all the functions you should overwrite (validate_input, get_value, set_value)
@@ -16,7 +15,7 @@ class Setting(ABC, Generic[V]):
         server_id - id: the server id of the server this setting is activated from.
     """
     @abstractmethod
-    def _validate_input(self, bot, server_id: int, value: V) -> bool:
+    def _validate_input(self, bot, server_id: int, value: Any) -> bool:
         """
         Check if the input is valid
 
@@ -26,14 +25,14 @@ class Setting(ABC, Generic[V]):
         return NotImplemented
 
     @abstractmethod
-    def get_value(self, bot, server_id: int) -> V:
+    def get_value(self, bot, server_id: int) -> Any:
         """
         Return the current value for this setting
         """
         return NotImplemented
 
     @abstractmethod
-    def _set_value_core(self, bot, server_id: int, new_value: V) -> None:
+    def _set_value_core(self, bot, server_id: int, new_value: Any) -> None:
         """
         Set a new value for the settin
         validating the input is done before being passed to this function
@@ -43,7 +42,7 @@ class Setting(ABC, Generic[V]):
         """
         return NotImplemented
 
-    def set_value(self, bot, server_id: int, new_value: V) -> None:
+    def set_value(self, bot, server_id: int, new_value: Any) -> None:
         if self._validate_input(bot, server_id, new_value):
             self._set_value_core(bot, server_id, new_value)
 
@@ -108,21 +107,22 @@ class PrefixSetting(Setting):
 
 
 class ModlogSetting(Setting):
-    def _validate_input(self, bot, server_id: int, channel: discord.TextChannel):
+    discord_convertor = commands.converter.TextChannelConverter()
+
+    def _validate_input(self, bot, server_id: int, value: discord.TextChannel) -> bool:
         return True
 
     def get_value(self, bot, server_id: int) -> discord.TextChannel:
         channel_id = bot.db.get_setting("modlog", server_id)
 
-        if channel_id == 0:
+        if channel_id == 0 or channel_id is None:
             return None
 
         channel = bot.get_channel(channel_id)
         return channel
 
-    def _set_value_core(self, bot, server_id: int, channel: discord.TextChannel) -> None:
-        channel_id = channel.id
-        bot.db.update_setting(server_id, "modlog", channel_id)
+    def _set_value_core(self, bot, server_id: int, channel: discord.TextChannel) -> None:  # type: ignore[override]
+        bot.db.update_setting(server_id, "modlog", channel.id)
 
 
 SETTINGS: Dict[str, Setting] = {

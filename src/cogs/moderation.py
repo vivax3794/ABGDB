@@ -10,7 +10,7 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
         self.bot = bot
 
     async def send_to_modlog(self, server_id: int, embed: discord.Embed) -> None:
-        modlog: discord.TextChannel = self.bot.settings["modlog"].get_value(server_id)
+        modlog: discord.TextChannel = self.bot.settings["modlog"].get_value(self.bot, server_id)
         await modlog.send(embed=embed)
 
 
