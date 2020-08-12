@@ -81,6 +81,37 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
                 )
 
         await self.send_to_modlog(ctx, modlog_embed)
+        await ctx.send(f"kicked {user.name}")
+
+    @commands.guild_only()
+    @is_mod
+    @commands.command()
+    async def ban(self, ctx: commands.Context, user: discord.Member, *, reason: t.Optional[str]) -> None:
+        if reason is None:
+            reason = "No Reason Given"
+
+        ban_embed = discord.Embed(
+                title=f"You were ban from {ctx.guild.name}",
+                color=discord.Color.red(),
+                description=reason,
+                )
+        ban_embed.set_thumbnail(url=ctx.guild.icon_url)
+
+        try:
+            await user.send(embed=ban_embed)
+        except discord.errors.Forbidden:
+            pass
+
+        await user.ban(reason=reason)
+
+        modlog_embed = discord.Embed(
+                title=f"{ctx.author.name} banned {user.name}",
+                color=discord.Color.red(),
+                description=reason
+                )
+
+        await self.send_to_modlog(ctx, modlog_embed)
+        await ctx.send(f"banned user {user.name}")
 
 
 def setup(bot: Bot) -> None:
