@@ -116,6 +116,11 @@ class AdminCog(commands.Cog, name="admin"):  # type: ignore
         await ctx.send("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH...... *dies*")
         await self.bot.logout()
 
+    @commands.command()
+    async def add_setting(self, ctx: commands.Context, setting: str, type_: str) -> None:
+        self.bot.db.add_field(setting, type_)
+        await ctx.send(f"added setting {setting} to the db with type {type_}")
+
 
 def setup(bot: Bot) -> None:
     bot.add_cog(AdminCog(bot))

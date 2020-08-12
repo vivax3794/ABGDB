@@ -31,7 +31,7 @@ class Database:
 
         self.db.run(
             """
-            INSERT INTO settings (server_id, prefix) VALUES (%(id)s, '!')
+            INSERT INTO settings (server_id, prefix, modlog) VALUES (%(id)s, '!', 0)
         """,
             {"id": server_id},
         )
@@ -65,3 +65,10 @@ class Database:
         value = self.get_setting("prefix", server_id)
         if value is None:
             self.add_server(server_id)
+
+    def add_field(self, setting: str, type_: str) -> None:
+        logger.info(f"adding field {setting} to db")
+        self.db.run(f"""
+            ALTER TABLE settings
+            ADD {setting} {type_}
+        """)
