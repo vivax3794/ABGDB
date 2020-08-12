@@ -113,6 +113,18 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
         await self.send_to_modlog(ctx, modlog_embed)
         await ctx.send(f"banned user {user.name}")
 
+    @commands.guild_only()
+    @is_mod
+    @commands.command(aliases=["un-ban"])
+    async def unban(self, ctx: commands.Context, user: discord.User) -> None:
+        await ctx.guild.unban(user)
+        await ctx.send(f"unbaned {user.name}")
+        modlog_embed = discord.Embed(
+                    title=f"{ctx.author.name} unbanned {user.name}",
+                    color=discord.Color.orange()
+                )
+        await self.send_to_modlog(ctx, modlog_embed)
+
 
 def setup(bot: Bot) -> None:
     bot.add_cog(ModCog(bot))
