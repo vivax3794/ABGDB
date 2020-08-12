@@ -57,6 +57,9 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
     @is_mod
     @commands.command()
     async def kick(self, ctx: commands.Context, user: discord.Member, *, reason: t.Optional[str]) -> None:
+        """
+        Kick user.
+        """
         if reason is None:
             reason = "No reason given."
 
@@ -87,6 +90,9 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
     @is_mod
     @commands.command()
     async def ban(self, ctx: commands.Context, user: discord.Member, *, reason: t.Optional[str]) -> None:
+        """
+        Ban a user
+        """
         if reason is None:
             reason = "No Reason Given"
 
@@ -117,6 +123,9 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
     @is_mod
     @commands.command(aliases=["un-ban"])
     async def unban(self, ctx: commands.Context, user: discord.User) -> None:
+        """
+        Unban a user.
+        """
         await ctx.guild.unban(user)
         await ctx.send(f"unbaned {user.name}")
         modlog_embed = discord.Embed(
