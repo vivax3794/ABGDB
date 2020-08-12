@@ -1,3 +1,5 @@
+import typing as t
+
 import discord
 from discord.ext import commands
 
@@ -50,6 +52,35 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
             await ctx.send(f"warned user {user.name}")
         else:
             await ctx.send(f"could not send dm to {user.name}")
+
+    @commands.guild_only()
+    @is_mod
+    @commands.command()
+    async def kick(self, ctx: commands.Context, user: discord.Member, *, reason: t.Optional[str]) -> None:
+        if reason is None:
+            reason = "No reason given."
+
+        kick_embed = discord.Embed(
+                title=f"You were kicked from {ctx.guild.name}",
+                color=discord.Color.red(),
+                description=reason,
+                )
+        kick_embed.set_thumbnail(url=ctx.guild.icon_url)
+
+        try:
+            await user.send(embed=kick_embed)
+        except discord.errors.Forbidden:
+            pass
+
+        await user.kick(reason=reason)
+
+        modlog_embed = discord.Embed(
+                title=f"{ctx.author.name} kicked {user.name}",
+                color=discord.Color.red(),
+                description=reason
+                )
+
+        await self.send_to_modlog(ctx, modlog_embed)
 
 
 def setup(bot: Bot) -> None:
