@@ -2,6 +2,7 @@ import typing as t
 
 import discord
 from discord.ext import commands
+from loguru import logger
 
 from src.bot import Bot
 
@@ -131,6 +132,24 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
         modlog_embed = discord.Embed(
                     title=f"{ctx.author.name} unbanned {user.name}",
                     color=discord.Color.orange()
+                )
+        await self.send_to_modlog(ctx, modlog_embed)
+
+    @commands.guild_only()
+    @is_mod
+    @commands.command(aliases=["clean"])
+    async def purge(self, ctx: commands.Context, ammount: t.Optional[int] = 10, channel: t.Optional[discord.TextChannel] = None):
+        if channel is None:
+            channel = ctx.channel
+
+        logger.info(f"purging {ammount} messages")
+        deleted_messages = await channel.purge(limit=ammount)
+        await ctx.send(f"deleted {len(deleted_messages)} messages in {channel.mention}")
+        logger.info("purge done")
+
+        modlog_embed = discord.Embed(
+                title=f"{ctx.author.name} cleard {len(deleted_messages)} messages in {channel.name}",
+                color=discord.Color.red()
                 )
         await self.send_to_modlog(ctx, modlog_embed)
 
