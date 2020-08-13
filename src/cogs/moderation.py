@@ -153,6 +153,34 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
                 )
         await self.send_to_modlog(ctx, modlog_embed)
 
+    @commands.guild_only()
+    @is_mod
+    @commands.command()
+    async def lock(self, ctx: commands.Context, channel: t.Optional[discord.TextChannel] = None, *, reason: t.Optional[str] = None) -> None:
+        if reason is None:
+            reason = "no reason given"
+        if channel is None:
+            channel = ctx.channel
+
+        everyone = ctx.guild.default_role
+        overwrites = channel.overwrites_for(everyone)
+        overwrites.send_messages = False
+        await channel.set_permissions(everyone, overwrite=overwrites)
+
+        lock_embed = discord.Embed(
+                    title=":lock: Channel locked by moderator :lock:",
+                    color=discord.Color.red(),
+                    description=reason
+                )
+        modlog_embed = discord.Embed(
+                    title=f"{ctx.author.name} locked {channel.name}",
+                    color=discord.Color.red(),
+                    description=reason
+                )
+        await channel.send(embed=lock_embed)
+        await self.send_to_modlog(ctx, modlog_embed)
+        await ctx.send(f"locked channel {channel.mention}")
+
 
 def setup(bot: Bot) -> None:
     bot.add_cog(ModCog(bot))
