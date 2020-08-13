@@ -17,6 +17,7 @@ class ConfigClass:
     invite: str
     source: str
     ball: t.Dict[str, t.List[str]]
+    log_channel: int
 
     def __init__(self) -> None:
         self.reload_config()
@@ -38,6 +39,7 @@ class ConfigClass:
         self.invite = self.raw_data["invite"]
         self.source = self.raw_data["source"]
         self.ball = self.raw_data["8ball"]
+        self.log_channel = int(self.raw_data["botlogs"])
 
         # .env vars
         logger.info("loading enviroment vars")

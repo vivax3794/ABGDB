@@ -6,6 +6,7 @@ cogs:
         - fun
         - info
         - moderation
+        - logging
 
 # these are not admins on your server, but users that can run dangerous commands on the bot.
 admins:
@@ -13,6 +14,8 @@ admins:
 
 invite: https://discord.com/oauth2/authorize?client_id=723933097997107260&permissions=8&scope=bot
 source: https://github.com/vivax3794/ABGDB
+
+botlogs: 743436466155159622
 
 
 8ball:
