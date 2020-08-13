@@ -3,7 +3,7 @@ from typing import Optional
 import discord
 from discord.ext import commands
 
-from ..bot import Bot
+from src.bot import Bot
 
 
 class SettingsCog(commands.Cog, name="settings-group"):  # type: ignore

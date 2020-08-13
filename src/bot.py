@@ -4,9 +4,9 @@ import discord
 from discord.ext import commands
 from loguru import logger
 
-from .database import Database
-from .database.settings import SETTINGS
-from .config import config
+from src.database import Database
+from src.database.settings import SETTINGS
+from src.config import config
 
 
 class Bot(commands.Bot):

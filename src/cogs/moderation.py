@@ -3,7 +3,7 @@ import typing as t
 import discord
 from discord.ext import commands
 
-from ..bot import Bot
+from src.bot import Bot
 
 
 is_mod = commands.has_permissions(kick_members=True, ban_members=True)

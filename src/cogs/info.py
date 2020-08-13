@@ -3,8 +3,8 @@ import sys
 import discord
 from discord.ext import commands
 
-from ..bot import Bot
-from ..config import config
+from src.bot import Bot
+from src.config import config
 
 
 class InfoCog(commands.Cog, name="info-commands"):  # type: ignore

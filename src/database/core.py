@@ -3,7 +3,7 @@ from typing import Any
 
 from loguru import logger
 
-from ..config import config
+from src.config import config
 
 
 class Database:

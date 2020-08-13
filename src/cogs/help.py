@@ -1,6 +1,6 @@
 from typing import Dict, Optional, List
 
-from ..bot import Bot
+from src.bot import Bot
 from loguru import logger
 
 import discord

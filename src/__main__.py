@@ -1,7 +1,7 @@
 from loguru import logger
 
-from .database import get_database
-from .bot import Bot
+from src.database import get_database
+from src.bot import Bot
 
 # custom levels
 logger.level("SPY", no=10, color="<yellow>")

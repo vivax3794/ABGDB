@@ -4,9 +4,9 @@ import discord
 from discord.ext import commands
 from loguru import logger
 
-from ..bot import Bot
-from ..config import config
-from ..utils import reverse_dict
+from src.bot import Bot
+from src.config import config
+from src.utils import reverse_dict
 
 
 MORSE_CODE_TABLE = {

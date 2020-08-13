@@ -1,7 +1,7 @@
 from loguru import logger
 
-from .core import Database
-from ..config import config
+from src.database.core import Database
+from src.config import config
 
 
 def get_database() -> Database:

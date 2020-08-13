@@ -4,8 +4,8 @@ from io import StringIO
 from discord.ext import commands
 from loguru import logger
 
-from ..bot import Bot
-from ..config import config
+from src.bot import Bot
+from src.config import config
 
 
 class AdminCog(commands.Cog, name="admin"):  # type: ignore
