@@ -181,6 +181,34 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
         await self.send_to_modlog(ctx, modlog_embed)
         await ctx.send(f"locked channel {channel.mention}")
 
+    @commands.guild_only()
+    @is_mod
+    @commands.command()
+    async def unlock(self, ctx: commands.Context, channel: t.Optional[discord.TextChannel] = None, *, reason: t.Optional[str] = None) -> None:
+        if reason is None:
+            reason = "no reason given"
+        if channel is None:
+            channel = ctx.channel
+
+        everyone = ctx.guild.default_role
+        overwrites = channel.overwrites_for(everyone)
+        overwrites.send_messages = None
+        await channel.set_permissions(everyone, overwrite=overwrites)
+
+        lock_embed = discord.Embed(
+                    title=":unlock:  Channel unlocked by moderator :unlock:",
+                    color=discord.Color.green(),
+                    description=reason
+                )
+        modlog_embed = discord.Embed(
+                    title=f"{ctx.author.name} unlocked {channel.name}",
+                    color=discord.Color.green(),
+                    description=reason
+                )
+        await channel.send(embed=lock_embed)
+        await self.send_to_modlog(ctx, modlog_embed)
+        await ctx.send(f"unlocked channel {channel.mention}")
+
 
 def setup(bot: Bot) -> None:
     bot.add_cog(ModCog(bot))
