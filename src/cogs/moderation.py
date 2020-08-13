@@ -139,6 +139,9 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
     @is_mod
     @commands.command(aliases=["clean"])
     async def purge(self, ctx: commands.Context, ammount: t.Optional[int] = 10, channel: t.Optional[discord.TextChannel] = None):
+        """
+        Delete messages.
+        """
         if channel is None:
             channel = ctx.channel
 
@@ -157,6 +160,9 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
     @is_mod
     @commands.command()
     async def lock(self, ctx: commands.Context, channel: t.Optional[discord.TextChannel] = None, *, reason: t.Optional[str] = None) -> None:
+        """
+        Lock a channel so users can't talk
+        """
         if reason is None:
             reason = "no reason given"
         if channel is None:
@@ -185,6 +191,9 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
     @is_mod
     @commands.command()
     async def unlock(self, ctx: commands.Context, channel: t.Optional[discord.TextChannel] = None, *, reason: t.Optional[str] = None) -> None:
+        """
+        Unlock a channel after it was locked.
+        """
         if reason is None:
             reason = "no reason given"
         if channel is None:
