@@ -1,10 +1,14 @@
 import typing as t
+import textwrap
 
 import discord
 from discord.ext import commands
 from loguru import logger
 
 from src.bot import Bot
+
+
+DATA_FORMAT = "%d/%m/%y - %X"
 
 
 is_mod = commands.has_permissions(kick_members=True, ban_members=True)
@@ -217,6 +221,35 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
         await channel.send(embed=lock_embed)
         await self.send_to_modlog(ctx, modlog_embed)
         await ctx.send(f"unlocked channel {channel.mention}")
+
+    @commands.guild_only()
+    @is_mod
+    @commands.command()
+    async def user(self, ctx: commands.Context, member: discord.Member = None) -> None:
+        """
+        Display info about a user
+        """
+        if member is None:
+            member = ctx.author
+
+        joined_server = member.joined_at.strftime(DATA_FORMAT)
+        created_at = member.created_at.strftime(DATA_FORMAT)
+        roles = " ".join(role.mention for role in member.roles if role.name != "@everyone")
+
+        embed = discord.Embed(
+                    color=discord.Color.blue(),
+                    title=f"{member}",
+                    description=textwrap.dedent(f"""
+                        joined at: {joined_server}
+                        created: {created_at}
+                        profile: {member.mention}
+                        id: {member.id}
+                        roles: {roles}
+                    """),
+                    thumbnail=member.avatar
+                )
+        embed.set_thumbnail(url=member.avatar_url)
+        await ctx.send(embed=embed)
 
 
 def setup(bot: Bot) -> None:
