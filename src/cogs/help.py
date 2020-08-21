@@ -21,25 +21,27 @@ class HelpCommand(commands.HelpCommand):
         await destionation.send(embed=embed)
 
     async def send_bot_help(self, mapping: MAPPING) -> None:
-        embed = discord.Embed(title="help", color=discord.Color.blue())
+        embed = discord.Embed(title="help", color=discord.Color.blue(), description="use `<prefix>help [category]` to see the commands")
         for cog, command_list in mapping.items():
-            if cog is None:
-                category = "Not Grouped"
-            else:
-                category = cog.qualified_name
-
             allowed_commands = await self.filter_commands(command_list)
             if len(allowed_commands) == 0:
                 continue
 
-            embed.add_field(
-                name=category,
-                value="\n".join(
-                    f"`{command.name}` - {command.short_doc}"
-                    for command in allowed_commands
-                ),
-                inline=False
-            )
+            if cog is None:
+                embed.add_field(
+                    name="other",
+                    value="\n".join(
+                        f"`{command.qualified_name}` - {command.short_doc}"
+                        for command in allowed_commands
+                    ),
+                    inline=False
+                )
+            else:
+                embed.add_field(
+                    name=cog.qualified_name,
+                    value=cog.description,
+                    inline=False
+                )
 
         await self.send_embed(embed)
 

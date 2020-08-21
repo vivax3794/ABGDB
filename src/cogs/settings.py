@@ -6,7 +6,10 @@ from discord.ext import commands
 from src.bot import Bot
 
 
-class SettingsCog(commands.Cog, name="settings-group"):  # type: ignore
+class SettingsCog(commands.Cog, name="config"):  # type: ignore
+    """
+    Configure and see settings about the bot.
+    """
     def __init__(self, bot: Bot) -> None:
         super().__init__()
         self.bot = bot

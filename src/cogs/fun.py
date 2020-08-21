@@ -56,6 +56,9 @@ MORSE_CODE_TABLE = {
 
 
 class FunCog(commands.Cog, name="fun"):  # type: ignore
+    """
+    Fun commands for you to use!
+    """
     def __init__(self, bot: Bot) -> None:
         super().__init__()
         self.bot = bot

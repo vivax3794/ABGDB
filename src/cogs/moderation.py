@@ -15,6 +15,9 @@ is_mod = commands.has_permissions(kick_members=True, ban_members=True)
 
 
 class ModCog(commands.Cog, name="moderation"):  # type: ignore
+    """
+    Do mod stuff like ban and kick.
+    """
     def __init__(self, bot: Bot) -> None:
         super().__init__()
         self.bot = bot

@@ -9,6 +9,8 @@ from src.config import config
 
 
 class AdminCog(commands.Cog, name="admin"):  # type: ignore
+    """
+    Secret admin stash.    """
     def __init__(self, bot: Bot) -> None:
         super().__init__()
         self.bot = bot

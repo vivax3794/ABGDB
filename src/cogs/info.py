@@ -7,13 +7,16 @@ from src.bot import Bot
 from src.config import config
 
 
-class InfoCog(commands.Cog, name="info-commands"):  # type: ignore
+class InfoCog(commands.Cog, name="information"):  # type: ignore
+    """
+    Get some info about the bot.
+    """
     def __init__(self, bot: Bot) -> None:
         super().__init__()
         self.bot = bot
 
     @commands.command()
-    async def info(self, ctx: commands.Context) -> None:
+    async def about(self, ctx: commands.Context) -> None:
         """
         Show info about the bot, like invite.
         """
