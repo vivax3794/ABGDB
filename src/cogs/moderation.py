@@ -23,8 +23,9 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
         self.bot = bot
 
     async def send_to_modlog(self, ctx: commands.Context, embed: discord.Embed) -> None:
-        modlog: discord.TextChannel = self.bot.settings["modlog"].get_value(self.bot, ctx.guild.id)
-        await modlog.send(embed=embed)
+        modlog: t.Optional[discord.TextChannel] = self.bot.settings["modlog"].get_value(self.bot, ctx.guild.id)
+        if modlog is not None:
+            await modlog.send(embed=embed)
 
     @is_mod
     @commands.guild_only()
