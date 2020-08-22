@@ -93,7 +93,8 @@ class Bot(commands.Bot):
         elif isinstance(error, commands.CheckFailure):
             logger.info(error)
             await ctx.send(
-                f"{ctx.author.mention} you are not allowed to use this command."
+                f"{ctx.author.mention} you are not allowed to use this command.",
+                embed=discord.Embed(description=str(error), color=discord.Color.red())
             )
 
         else:
