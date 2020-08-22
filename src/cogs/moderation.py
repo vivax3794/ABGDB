@@ -22,6 +22,13 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
         super().__init__()
         self.bot = bot
 
+    async def check_role_order(self, activator: discord.Member, target: discord.Member) -> None:
+        activator_role = activator.roles[-1]
+        target_role = target.roles[-1]
+
+        if activator_role <= target_role:
+            raise commands.CheckFailure("you may not use this command on a user with a higher or same role as you")
+
     async def send_to_modlog(self, ctx: commands.Context, embed: discord.Embed) -> None:
         modlog: t.Optional[discord.TextChannel] = self.bot.settings["modlog"].get_value(self.bot, ctx.guild.id)
         if modlog is not None:
@@ -69,6 +76,8 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
         """
         Kick user.
         """
+        await self.check_role_order(ctx.author, user)
+
         if reason is None:
             reason = "No reason given."
 
@@ -102,6 +111,8 @@ class ModCog(commands.Cog, name="moderation"):  # type: ignore
         """
         Ban a user
         """
+        await self.check_role_order(ctx.author, user)
+
         if reason is None:
             reason = "No Reason Given"
 
