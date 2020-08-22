@@ -71,11 +71,14 @@ class Bot(commands.Bot):
             await ctx.send(f"{ctx.author.mention} command not found")
             await ctx.send_help()
 
-        elif isinstance(error, commands.BadArgument) or isinstance(
-            error, commands.MissingRequiredArgument
-        ):
-            logger.error("incorrect arguments given")
-            await ctx.send(f"{ctx.author.mention} invalid arguments")
+        elif isinstance(error, commands.BadArgument):
+            await ctx.send(embed=discord.Embed(
+                    description=str(error),
+                    color=discord.Color.red()
+                ))
+
+        elif isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send("missing arguments")
             await ctx.send_help(ctx.command)
 
         elif isinstance(error, commands.MissingPermissions):
