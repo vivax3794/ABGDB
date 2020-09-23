@@ -4,9 +4,6 @@
 this is a bad bot, don't use it.
 unless you are me.
 
-## invite bot
-you can invite the bot with [this link](https://discord.com/api/oauth2/authorize?client_id=723933097997107260&permissions=8&scope=bot) 
-
 
 ## run bot locally 
 This bot uses a postgres database, so you need to provide that, the bot will create the needed tables on start
