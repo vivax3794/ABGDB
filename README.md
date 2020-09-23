@@ -7,7 +7,7 @@ unless you are me.
 
 ## run bot locally 
 This bot uses a postgres database, so you need to provide that, the bot will create the needed tables on start
-you need [pipenv](https://pypi.org/project/pipenv/) to run this bot.
+, you also need [pipenv](https://pypi.org/project/pipenv/) to run this bot.
 clone the repo and setup the env:
 ```bash
 git clone https://github.com/vivax3794/ABGDB
